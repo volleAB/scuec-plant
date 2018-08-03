@@ -12,9 +12,9 @@ function Map(id) {
 }
 
 Map.prototype.config = function() {
-  this.map.centerAndZoom('中南民族大学', 19) // 缩放等级为 3 - 19
+  this.map.centerAndZoom(new BMap.Point(114.399076, 30.492039), 19) // 缩放等级为 3 - 19
   // this.map.enableScrollWheelZoom()
-  this.map.enableScrollWheelZoom()
+  this.map.disableScrollWheelZoom()
   this.map.enableDragging()
   this.map.enableDoubleClickZoom()
   this.map.enableKeyboard()
@@ -36,7 +36,7 @@ Map.prototype.addControl = function() {
   this.map.addControl(
     new BMap.MapTypeControl({
       type: BMAP_MAPTYPE_CONTROL_HORIZONTAL,
-      mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP, BMAP_PERSPECTIVE_MAP]
+      mapTypes: [BMAP_NORMAL_MAP] // , BMAP_HYBRID_MAP, BMAP_PERSPECTIVE_MAP
     })
   )
 
@@ -54,7 +54,8 @@ Map.prototype.init = function() {
   this.config()
   this.addControl()
   this.addPlant()
-  this._getPlantData()
+  this.search('木耳', '木耳')
+  //this._getPlantData()
 }
 
 Map.prototype.addPlant = function() {
@@ -72,28 +73,29 @@ Map.prototype.addPlant = function() {
   plantLayer.addEventListener('onhotspotclick', this._showMessage.bind(this))
 }
 
-Map.prototype._createInfoWindow = function(info) {
-  console.log(info)
+Map.prototype._createWindowHtml = function(info) {
   var html =
     '<div id="msg">\
   <div id="title-container" class="clearfix">\
     <h1 class="float-left">' +
-    info.name +
+    info.title +
     '</h1>\
     <h1 class="float-left">' +
-    info.englishName +
+    info.englishTitle +
     '</h1>\
   </div>\
   <div id="fg-container" class="clearfix">\
     <h2 id="fg" class="float-left">' +
     info.families +
-    info.genus +
+    '科 ' +
+    info.genera +
+    '属' +
     '</h2>\
   </div>\
   <div id="img-container">\
     <img src="' +
-    info.img +
-    '" alt="description">\
+    info.img.big +
+    '" alt="plant">\
   </div>\
   <div id="description-container" class="clearfix">\
     <h3 class="float-left">【形态与分布】</h3>\
@@ -104,22 +106,42 @@ Map.prototype._createInfoWindow = function(info) {
   <div id="value-container" class="clearfix">\
     <h3 class="float-left">【药用价值】</h3>\
     <p class="float-left">' +
-    info.madicinalValue +
+    info.medicinalValue +
     '</p>\
   </div>\
 </div>'
-  var infoWindow = new BMap.InfoWindow(html, this.infoWindowConfig)
-  return infoWindow
+
+  return html
 }
 
 Map.prototype._showMessage = function(e) {
   // 获取poi对象
-  var poi = e.customPoi
-  var infoData = this._getPlantDataById(poi.poiId)
+  var customPoi = e.customPoi
+  var content = e.content
+  // var infoData = this._getPlantDataById(poi.poiId)
   // 创建信息窗口
-  var infoWindow = this._createInfoWindow(infoData)
-  var point = new BMap.Point(poi.point.lng, poi.point.lat)
-  this.map.openInfoWindow(infoWindow, point)
+  var infoWindow = this._createWindowHtml(content)
+  var point = new BMap.Point(customPoi.point.lng, customPoi.point.lat)
+  var searchInfoWindow = new BMapLib.SearchInfoWindow(this.map, infoWindow, {
+    title: customPoi.title, //标题
+    width: 470, //宽度
+    height: 420, //高度
+    panel: 'panel', //检索结果面板
+    enableAutoPan: true, //自动平移
+    enableSendToPhone: true, //是否显示发送到手机按钮
+    searchTypes: [
+      BMAPLIB_TAB_SEARCH, //周边检索
+      BMAPLIB_TAB_TO_HERE, //到这里去
+      BMAPLIB_TAB_FROM_HERE //从这里出发
+    ]
+  })
+  searchInfoWindow.open(point)
+  // this.map.openInfoWindow(infoWindow, point)
+
+  var img = document.querySelector('#img-container img')
+  img.onload = function() {
+    searchInfoWindow.redraw()
+  }
 }
 
 Map.prototype._getPlantData = function() {
@@ -137,4 +159,21 @@ Map.prototype._getPlantDataById = function(id) {
     return value.poiId === id
   })
   return data
+}
+
+Map.prototype.search = function(f, g) {
+  var url =
+    'http://api.map.baidu.com/geosearch/v3/local?region=武汉&ak=xSD7rlMlk5GKIjWzKjfOAquu0hmBVQMX&geotable_id=192795&filter=families:' +
+    f +
+    ',genera:' +
+    g
+  fetch(url, {
+    method: 'GET'
+  })
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      console.log(data)
+    })
 }
