@@ -162,18 +162,26 @@ Map.prototype._getPlantDataById = function(id) {
 }
 
 Map.prototype.search = function(f, g) {
-  var url =
-    'http://api.map.baidu.com/geosearch/v3/local?region=武汉&ak=xSD7rlMlk5GKIjWzKjfOAquu0hmBVQMX&geotable_id=192795&filter=families:' +
-    f +
-    ',genera:' +
-    g
-  fetch(url, {
-    method: 'GET'
+  var url = 'http://api.map.baidu.com/geosearch/v3/local?callback=?'
+  $.ajax({
+    type: 'GET',
+    url: url,
+    contentType: 'application/json',
+    data: {
+      q: '', //检索关键字
+      region: '中南民族大学', //北京的城市id
+      scope: '2', //显示详细信息
+      geotable_id: 192795,
+      ak: 'xSD7rlMlk5GKIjWzKjfOAquu0hmBVQMX' //用户ak
+    },
+    dataType: 'json',
+    success: function(res) {
+      console.log(res)
+    },
+    error: function() {
+      console.log('error')
+    }
   })
-    .then(res => {
-      return res.json()
-    })
-    .then(data => {
-      console.log(data)
-    })
+
+  // TODO: 为什么使用fetch就无法做到
 }
