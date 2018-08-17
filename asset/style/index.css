@@ -31,8 +31,14 @@ body {
   overflow: scroll;
 }
 
-#title-container h1:first-of-type {
-  margin-right: 18px;
+.title-container h1 {
+  margin: 8px 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.minTitle {
+  font-weight: bold;
 }
 
 #img-container img {
@@ -40,40 +46,3 @@ body {
   height: auto;
 }
 
-.select {
-  height: 20%;
-  padding: 10px 10px 10px 200px;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.name {
-  margin: 10px;
-  cursor: pointer;
-}
-
-.name:hover {
-  text-decoration: underline red;
-}
-
-.active {
-  color: red;
-}
-
-#select-btn {
-  width: 80px;
-  height: 30px;
-  outline: 1px solid #333;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-#select-btn:hover {
-  outline: 1px solid red;
-}

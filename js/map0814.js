@@ -5,6 +5,7 @@ function Map(id) {
   // 相对于HTML文件的路径
   this.url = './asset/data/test0814.json'
   this.data = null
+  this.markers = []
 }
 
 Map.prototype.init = function() {
@@ -32,9 +33,10 @@ Map.prototype.init = function() {
 Map.prototype.addAllPlant = function() {
   let _this = this
   this.data.forEach(function(p) {
-    let point = new BMap.Point(p.lng, p.lat)
-    let marker = new BMap.Marker(point)
-    _this.map.addOverlay(marker)
+    let marker = new Marker(p)
+    let m = marker.init()
+    _this.map.addOverlay(m)
+    _this.markers.push(m)
   })
 }
 
@@ -49,4 +51,16 @@ Map.prototype.getPlantData = function() {
       _this.data = data.data
       _this.addAllPlant.call(_this)
     })
+}
+
+Map.prototype.redrawPlant = function(data) {
+  this.map.removeOverlay()
+  this.markers = []
+  let _this = this
+  data.forEach(item => {
+    let marker = new Marker(p)
+    let m = marker.init()
+    _this.map.addOverlay(m)
+    _this.markers.push(m)
+  })
 }
