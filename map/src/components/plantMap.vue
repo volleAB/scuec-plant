@@ -72,6 +72,7 @@ export default {
       this.show = false
     },
     toHere() {
+      this.show = false
       console.log('to here')
     }
   },

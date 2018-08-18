@@ -65,7 +65,6 @@ export default {
   },
   props: {
     showDialogFlag: {
-      default: false,
       type: Boolean,
       required: true
     },
