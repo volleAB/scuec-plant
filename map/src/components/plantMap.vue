@@ -28,6 +28,10 @@ export default {
     return {
       map: null,
       show: false,
+      currentPos: null,
+      targetPos: null,
+
+      walking: null,
       plantInfo: {
         name: '木耳',
         eName: 'Auricularia auricular ',
@@ -53,6 +57,7 @@ export default {
   },
   mounted() {
     this.createMap()
+    this.initWalking()
   },
   methods: {
     createMap() {
@@ -73,7 +78,19 @@ export default {
     },
     toHere() {
       this.show = false
-      console.log('to here')
+      this.targetPos = new BMap.Point(this.plantInfo.lng, this.plantInfo.lat)
+      this.walking.search(this.currentPos, this.targetPos)
+    },
+    initWalking() {
+      let map = this.map.map
+      let walkingOpt = {
+        renderOptions: {
+          map: map,
+          autoViewport: false
+        }
+      }
+      this.currentPos = new BMap.Point(114.399538, 30.494813)
+      this.walking = new BMap.WalkingRoute(map, walkingOpt)
     }
   },
   watch: {
