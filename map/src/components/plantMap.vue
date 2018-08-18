@@ -31,9 +31,11 @@ export default {
   },
   watch: {
     plants: function() {
+      let center = new BMap.Point(this.plants[0].lng, this.plants[0].lat)
       this.map.removePlant()
       console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
+      this.map.map.panTo(center)
     }
   }
 }
