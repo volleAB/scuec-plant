@@ -6,28 +6,54 @@
         <el-aside>
           <el-row class="menu">
             <el-col>
-              <h5 class="text_center">选择想要查看的科，属，看都发布在何处</h5>
+              <h5 class="text_center">选择想要查看类别，看都分布在何处</h5>
               <el-menu default-active="1">
                 <el-submenu index="1">
                   <template slot="title">
                     <i class="el-icon-location"></i>
-                    <span>科系</span>
+                    <span>科</span>
                   </template>
                   <el-menu-item v-for="(item, index) in families"
                                 :key="index"
                                 :index="`1-${index}`">
-                    <div @click="updateByFamily">{{item}}</div>
+                    <div @click="update"
+                         data-type="family">{{item}}</div>
                   </el-menu-item>
                 </el-submenu>
                 <el-submenu index="2">
                   <template slot="title">
                     <i class="el-icon-location-outline"></i>
-                    <span>属类</span>
+                    <span>属</span>
                   </template>
                   <el-menu-item v-for="(item, index) in genera"
                                 :key="index"
                                 :index="`2-${index}`">
-                    <div @click.native="updateByGenus">{{item}}</div>
+                    <div @click="update"
+                         data-type="genus">{{item}}</div>
+                  </el-menu-item>
+                </el-submenu>
+                <el-submenu index="3">
+                  <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span>道路</span>
+                  </template>
+                  <el-menu-item v-for="(item, index) in streets"
+                                :key="index"
+                                :index="`3-${index}`">
+                    <div @click="update"
+                         data-type="street">{{item}}</div>
+                  </el-menu-item>
+                </el-submenu>
+                <el-submenu index="4">
+                  <template slot="title">
+                    <i class="el-icon-rank"></i>
+                    <span>建筑</span>
+                  </template>
+                  <el-menu-item v-for="(item, index) in buildings"
+                                :key="index"
+                                :index="`4-${index}`">
+                    <div @click="update"
+                         data-type="building">{{item}}</div>
                   </el-menu-item>
                 </el-submenu>
               </el-menu>
@@ -43,12 +69,12 @@
 </template>
 
 <script>
-import _ from 'loadsh';
-import plantMap from './components/plantMap';
-import testData from './assets/data/test0814';
+import _ from 'loadsh'
+import plantMap from './components/plantMap'
+import testData from './assets/data/test0814'
 export default {
   name: 'App',
-  data(){
+  data() {
     return {
       allPlants: testData.data,
       plants: testData.data
@@ -60,30 +86,45 @@ export default {
   computed: {
     families() {
       let families = []
-      this.allPlants.forEach((item) => {
-       families.push(item.family)
+      this.allPlants.forEach(item => {
+        families.push(item.family)
       })
 
       return _.union(families)
     },
-    genera(){
+    genera() {
       let genera = []
-      this.allPlants.forEach((item) => {
+      this.allPlants.forEach(item => {
         genera.push(item.genus)
       })
       return _.union(genera)
+    },
+    streets() {
+      let streets = []
+      this.allPlants.forEach(item => {
+        streets.push(item.pos.street)
+      })
+      return _.union(streets)
+    },
+    buildings() {
+      let buildings = []
+      this.allPlants.forEach(item => {
+        buildings.push(item.pos.building)
+      })
+      return _.union(buildings)
     }
   },
   methods: {
-    updateByFamily(e){
+    update(e) {
       let el = e.target
       let f = el.innerText
-      this.plants = _.filter(this.allPlants, {'family': f})
-    },
-    updateByGenus(e){
-      let el = e.target
-      let g = el.innerText
-      this.plants = _.filter(this.allPlants, {'genus': g})
+      let type = el.dataset.type
+      console.log(`该选择类型为 -- ${type}`)
+      this.plants = _.filter(this.allPlants, {
+        pos: {
+          [type]: f
+        }
+      })
     }
   }
 }

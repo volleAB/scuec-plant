@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import Map from '../class/map';
-import BMap from 'BMap';
+import Map from '../class/map'
+import BMap from 'BMap'
 export default {
   name: 'plantMap',
   props: {
@@ -14,25 +14,25 @@ export default {
       type: Array
     }
   },
-  data(){
+  data() {
     return {
       map: null
     }
   },
-  mounted(){
+  mounted() {
     this.createMap()
   },
   methods: {
-    createMap(){
+    createMap() {
       this.map = new Map('allmap')
       this.map.init()
       this.map.addPlant(this.plants)
     }
   },
   watch: {
-    plants: function(){
-      console.log(this.plants);
+    plants: function() {
       this.map.removePlant()
+      console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
     }
   }
