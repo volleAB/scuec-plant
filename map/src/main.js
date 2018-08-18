@@ -13,7 +13,15 @@ import {
   Menu,
   MenuItem,
   MenuItemGroup,
-  Submenu
+  Submenu,
+  Notification,
+  Button,
+  ButtonGroup,
+  Input,
+  Select,
+  Option,
+  Form,
+  FormItem
 } from 'element-ui'
 
 Vue.config.productionTip = false
@@ -28,6 +36,15 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
 Vue.use(MenuItemGroup)
+Vue.use(Button)
+Vue.use(ButtonGroup)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Form)
+Vue.use(FormItem)
+
+Vue.prototype.$notify = Notification
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
