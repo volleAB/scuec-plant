@@ -50,9 +50,9 @@ Map.prototype.addControl = function() {
 Map.prototype.init = function() {
   this.map.setCurrentCity('武汉')
   this.config()
-  this.addControl()
-  this.addPlant()
-  this.fgInit()
+  // this.addControl()
+  // this.addPlant()
+  // this.fgInit()
   //this._getPlantData()
 }
 

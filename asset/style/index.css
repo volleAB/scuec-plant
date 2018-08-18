@@ -1,0 +1,48 @@
+body,
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.float-left {
+  float: left;
+}
+
+.clearfix:after {
+  content: '.';
+  display: block;
+  visibility: hidden;
+  clear: both;
+  height: 0;
+}
+
+#map {
+  height: 100%;
+}
+
+#msg {
+  width: 450px;
+  height: 400px;
+  padding: 10px;
+  overflow: scroll;
+}
+
+.title-container h1 {
+  margin: 8px 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.minTitle {
+  font-weight: bold;
+}
+
+#img-container img {
+  width: 430px;
+  height: auto;
+}
+
