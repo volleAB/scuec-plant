@@ -34,16 +34,16 @@ class Map {
     let _this = this
     plant.forEach(function(p) {
       let marker = new Marker(p)
-      let m = marker.getMarker()
-      _this.map.addOverlay(m)
-      m.setAnimation(_this.animation)
-      _this.markers.push(m)
+      marker.getMarker()
+      _this.map.addOverlay(marker.marker)
+      marker.marker.setAnimation(_this.animation)
+      _this.markers.push(marker)
     })
   }
   removePlant() {
     let _this = this
-    this.markers.forEach(p => {
-      _this.map.removeOverlay(p)
+    this.markers.forEach(item => {
+      _this.map.removeOverlay(item.marker)
     })
     this.markers = []
   }

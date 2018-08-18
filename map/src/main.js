@@ -21,7 +21,8 @@ import {
   Select,
   Option,
   Form,
-  FormItem
+  FormItem,
+  Dialog
 } from 'element-ui'
 
 Vue.config.productionTip = false
@@ -43,6 +44,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Dialog)
 
 Vue.prototype.$notify = Notification
 /* eslint-disable no-new */

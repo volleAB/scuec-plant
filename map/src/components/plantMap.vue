@@ -1,13 +1,23 @@
 <template>
-  <div class="plantMap"
-       id="allmap"></div>
+  <div class="map h100 box-shadow">
+    <div class="plantMap h100"
+         id="allmap"></div>
+    <info-dialog :showDialogFlag="show"
+                 :plantInfo="plantInfo"
+                 @closeDialog="closeDialog"
+                 @toHere="toHere"></info-dialog>
+  </div>
 </template>
 
 <script>
 import Map from '../class/map'
+import infoDialog from './infoDialog'
 import BMap from 'BMap'
 export default {
   name: 'plantMap',
+  components: {
+    infoDialog
+  },
   props: {
     plants: {
       required: true,
@@ -16,7 +26,29 @@ export default {
   },
   data() {
     return {
-      map: null
+      map: null,
+      show: false,
+      plantInfo: {
+        name: '木耳',
+        eName: 'Auricularia auricular ',
+        pos: {
+          street: '腾飞路',
+          building: '民族医学实验室',
+          distance: '西侧10米'
+        },
+        lng: 114.398627,
+        lat: 30.495661,
+        allReviser: ['L.', 'Underw'],
+        lastReviser: 'Underw',
+        family: '木耳',
+        genus: '木耳',
+        img: './img/木耳',
+        sharp:
+          '形状如耳朵，系寄生于枯木上的一种菌类，富含铁、钙、磷和维生素B1等。新鲜的木耳呈胶质片状，半透明，侧生在树木上，耳片直径5～10厘米，有弹性，腹面平滑下凹，边缘略上卷，背面凸起，并有极细的绒毛，呈黑褐色或茶褐色。干燥后收缩为角质状，硬而脆性，背面暗灰色或灰白色；入水后膨胀，可恢复原状，柔软而半透明，表面附有滑润的粘液。',
+        distribution: '产于全国各地。',
+        value:
+          '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
+      }
     }
   },
   mounted() {
@@ -24,9 +56,23 @@ export default {
   },
   methods: {
     createMap() {
+      let _this = this
       this.map = new Map('allmap')
       this.map.init()
       this.map.addPlant(this.plants)
+      this.map.markers.forEach(item => {
+        let data = item.data
+        item.marker.addEventListener('click', () => {
+          _this.show = true
+          _this.plantInfo = data
+        })
+      })
+    },
+    closeDialog() {
+      this.show = false
+    },
+    toHere() {
+      console.log('to here')
     }
   },
   watch: {
@@ -40,9 +86,3 @@ export default {
   }
 }
 </script>
-<style>
-#allmap {
-  height: 100%;
-}
-</style>
-

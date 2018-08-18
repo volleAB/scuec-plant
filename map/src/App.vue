@@ -1,104 +1,100 @@
 <template>
   <div id="app">
     <el-container class="h100">
-      <el-header>header</el-header>
-      <el-container>
-        <el-aside class="map-aside">
-          <el-row class="menu">
-            <el-col>
-              <el-form :model="search"
-                       :rules="searchRules"
-                       ref="search"
-                       label-position="top"
-                       status-icon>
-                <el-form-item label="搜索类型"
-                              prop="type">
-                  <el-select v-model="search.type"
-                             class="w100"
-                             size="small"
-                             placeholder="请选择需要搜索的类型">
-                    <el-option v-for="(item, index) in select"
-                               :key="index"
-                               :label="item.label"
-                               :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="具体条目"
-                              prop="value">
-                  <el-input v-model="search.value"
-                            placeholder="输入想要查询的信息。。。"
-                            prefix-icon="el-icon-search"
-                            size="small">
-                  </el-input>
-                </el-form-item>
-              </el-form>
-
-            </el-col>
-            <el-col>
-              <el-menu unique-opened>
-                <el-submenu index="1">
-                  <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>科</span>
-                  </template>
-                  <el-menu-item v-for="(item, index) in families"
-                                :key="index"
-                                :index="`1-${index}`">
-                    <div @click="update"
-                         data-type="family">{{item}}</div>
-                  </el-menu-item>
-                </el-submenu>
-                <el-submenu index="2">
-                  <template slot="title">
-                    <i class="el-icon-location-outline"></i>
-                    <span>属</span>
-                  </template>
-                  <el-menu-item v-for="(item, index) in genera"
-                                :key="index"
-                                :index="`2-${index}`">
-                    <div @click="update"
-                         data-type="genus">{{item}}</div>
-                  </el-menu-item>
-                </el-submenu>
-                <el-submenu index="3">
-                  <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>道路</span>
-                  </template>
-                  <el-menu-item v-for="(item, index) in streets"
-                                :key="index"
-                                :index="`3-${index}`">
-                    <div @click="update"
-                         data-type="street">{{item}}</div>
-                  </el-menu-item>
-                </el-submenu>
-                <el-submenu index="4">
-                  <template slot="title">
-                    <i class="el-icon-rank"></i>
-                    <span>建筑</span>
-                  </template>
-                  <el-menu-item v-for="(item, index) in buildings"
-                                :key="index"
-                                :index="`4-${index}`">
-                    <div @click="update"
-                         data-type="building">{{item}}</div>
-                  </el-menu-item>
-                </el-submenu>
-              </el-menu>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-button type="success"
-                         class="allP-btn"
-                         @click="showAllPlants">全部植物</el-button>
-            </el-col>
-          </el-row>
-        </el-aside>
-        <el-main>
-          <plant-map :plants="plants"></plant-map>
-        </el-main>
-      </el-container>
+      <el-aside class="map-aside box-shadow">
+        <el-row class="menu">
+          <el-col>
+            <el-form :model="search"
+                     :rules="searchRules"
+                     ref="search"
+                     label-position="top"
+                     status-icon>
+              <el-form-item label="搜索类型"
+                            prop="type">
+                <el-select v-model="search.type"
+                           class="w100"
+                           size="small"
+                           placeholder="请选择需要搜索的类型">
+                  <el-option v-for="(item, index) in select"
+                             :key="index"
+                             :label="item.label"
+                             :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="具体条目"
+                            prop="value">
+                <el-input v-model="search.value"
+                          placeholder="输入想要查询的信息。。。"
+                          prefix-icon="el-icon-search"
+                          size="small">
+                </el-input>
+              </el-form-item>
+            </el-form>
+          </el-col>
+          <el-col>
+            <el-menu unique-opened>
+              <el-submenu index="1">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>科</span>
+                </template>
+                <el-menu-item v-for="(item, index) in families"
+                              :key="index"
+                              :index="`1-${index}`">
+                  <div @click="update"
+                       data-type="family">{{item}}</div>
+                </el-menu-item>
+              </el-submenu>
+              <el-submenu index="2">
+                <template slot="title">
+                  <i class="el-icon-location-outline"></i>
+                  <span>属</span>
+                </template>
+                <el-menu-item v-for="(item, index) in genera"
+                              :key="index"
+                              :index="`2-${index}`">
+                  <div @click="update"
+                       data-type="genus">{{item}}</div>
+                </el-menu-item>
+              </el-submenu>
+              <el-submenu index="3">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>道路</span>
+                </template>
+                <el-menu-item v-for="(item, index) in streets"
+                              :key="index"
+                              :index="`3-${index}`">
+                  <div @click="update"
+                       data-type="street">{{item}}</div>
+                </el-menu-item>
+              </el-submenu>
+              <el-submenu index="4">
+                <template slot="title">
+                  <i class="el-icon-rank"></i>
+                  <span>建筑</span>
+                </template>
+                <el-menu-item v-for="(item, index) in buildings"
+                              :key="index"
+                              :index="`4-${index}`">
+                  <div @click="update"
+                       data-type="building">{{item}}</div>
+                </el-menu-item>
+              </el-submenu>
+            </el-menu>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-button type="primary"
+                       class="allP-btn"
+                       @click="showAllPlants">全部植物</el-button>
+          </el-col>
+        </el-row>
+      </el-aside>
+      <el-main>
+        <plant-map :plants="plants"></plant-map>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -268,6 +264,10 @@ export default {
     },
     showAllPlants() {
       this.plants = this.allPlants
+      this.$notify.success({
+        title: '提示',
+        message: '已在地图上显示全部植物'
+      })
     }
   }
 }
@@ -301,5 +301,12 @@ body {
 }
 .type-select {
   width: 90px;
+}
+.box-shadow {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.26);
+}
+
+.map-aside {
+  padding: 10px;
 }
 </style>
