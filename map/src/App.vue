@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import _ from 'loadsh'
+import _ from 'lodash'
 import plantMap from './components/plantMap'
 import testData from './assets/data/test0814'
 export default {
