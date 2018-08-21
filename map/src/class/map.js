@@ -3,14 +3,21 @@ import Marker from './marker'
 class Map {
   constructor(id) {
     this.map = new BMap.Map(id, {
-      mapType: BMAP_NORMAL_MAP
+      mapType: BMAP_NORMAL_MAP,
+      enableMapClick: false
     })
+    // this.style = {
+    //   features: ['water', 'land', 'building', 'road'], // point 兴趣点
+    //   style: 'normal' // dark , light
+    // }
     this.animation = BMAP_ANIMATION_DROP
     //BMAP_ANIMATION_BOUNCE弹跳动画，BMAP_ANIMATION_DROP坠落动画，设置为 null 则没有动画
     this.markers = []
     // this.infoWindow = new InfoWindow()
   }
   init() {
+    // 设置地图显示要素和风格
+    // this.map.setMapStyle(this.style)
     this.map.centerAndZoom(new BMap.Point(114.399107, 30.493782), 19)
     this.map.disableScrollWheelZoom()
     this.map.enableDragging()

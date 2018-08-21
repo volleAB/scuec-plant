@@ -95,11 +95,15 @@ export default {
       }
       this.currentPos = new BMap.Point(114.399538, 30.494813)
       this.walking = new BMap.WalkingRoute(map, walkingOpt)
+    },
+    clearWalking(){
+      this.walking.clearResults()
     }
   },
   watch: {
     plants: function() {
       let center = new BMap.Point(this.plants[0].lng, this.plants[0].lat)
+      this.clearWalking()
       this.map.removePlant()
       console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
