@@ -1,4 +1,5 @@
 import Marker from './marker'
+// import icon from '../assets/data/plant'
 // import InfoWindow from './infoWindow'
 class Map {
   constructor(id) {
