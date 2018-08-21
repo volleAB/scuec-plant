@@ -41,11 +41,8 @@ class Map {
     })
   }
   removePlant() {
-    let _this = this
-    this.markers.forEach(item => {
-      _this.map.removeOverlay(item.marker)
-    })
     this.markers = []
+    this.map.clearOverlays() // 清除所有覆盖物
   }
 }
 

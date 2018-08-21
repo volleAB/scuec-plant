@@ -65,6 +65,10 @@ export default {
       this.map = new Map('allmap')
       this.map.init()
       this.map.addPlant(this.plants)
+      this.clickHandler()
+    },
+    clickHandler(){
+      let _this = this
       this.map.markers.forEach(item => {
         let data = item.data
         item.marker.addEventListener('click', () => {
@@ -99,6 +103,7 @@ export default {
       this.map.removePlant()
       console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
+      this.clickHandler()
       this.map.map.panTo(center)
     }
   }
