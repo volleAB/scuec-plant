@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import '@/assets/style/index.less';
 import _ from 'lodash'
 import plantMap from './components/plantMap'
 import testData from './assets/data/test0814'
@@ -179,28 +180,36 @@ export default {
         family.push(item.family)
       })
 
-      return _.union(family)
+      return _.union(family).sort((a,b) => {
+         return a.localeCompare(b, 'zh-CN')
+      })
     },
     genus() {
       let genus = []
       this.allPlants.forEach(item => {
         genus.push(item.genus)
       })
-      return _.union(genus)
+      return _.union(genus).sort((a,b) => {
+         return a.localeCompare(b, 'zh-CN')
+      })
     },
     street() {
       let street = []
       this.allPlants.forEach(item => {
         street.push(item.pos.street)
       })
-      return _.union(street)
+      return _.union(street).sort((a,b) => {
+         return a.localeCompare(b, 'zh-CN')
+      })
     },
     building() {
       let building = []
       this.allPlants.forEach(item => {
         building.push(item.pos.building)
       })
-      return _.union(building)
+      return _.union(building).sort((a,b) => {
+         return a.localeCompare(b, 'zh-CN')
+      })
     }
   },
   methods: {
@@ -299,5 +308,8 @@ body {
 
 .map-aside {
   padding: 10px;
+}
+.anchorBL {
+  display: none;
 }
 </style>

@@ -15,7 +15,11 @@ class Map {
     //BMAP_ANIMATION_BOUNCE弹跳动画，BMAP_ANIMATION_DROP坠落动画，设置为 null 则没有动画
     this.markers = []
     // this.infoWindow = new InfoWindow()
+    this.sw = new BMap.Point(114.394786, 30.485107)
+    this.ne = new BMap.Point(114.405189, 30.501724)
+    this.bounds = new BMap.Bounds(this.sw, this.ne)
   }
+
   init() {
     // 设置地图显示要素和风格
     // this.map.setMapStyle(this.style)
@@ -29,11 +33,8 @@ class Map {
     this.map.disablePinchToZoom()
     this.map.enableAutoResize()
     // 设置地图显示范围, sw是西南点，ne是东北点
-    let sw = new BMap.Point(114.394786, 30.485107)
-    let ne = new BMap.Point(114.405189, 30.501724)
-    let b = new BMap.Bounds(sw, ne)
     try {
-      BMapLib.AreaRestriction.setBounds(this.map, b)
+      BMapLib.AreaRestriction.setBounds(this.map, this.bounds)
     } catch (e) {
       alert(e)
     }
