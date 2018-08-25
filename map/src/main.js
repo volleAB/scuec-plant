@@ -22,7 +22,9 @@ import {
   Option,
   Form,
   FormItem,
-  Dialog
+  Dialog,
+  Carousel,
+  CarouselItem
 } from 'element-ui'
 
 Vue.config.productionTip = false
@@ -45,6 +47,8 @@ Vue.use(Option)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Dialog)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
 
 Vue.prototype.$notify = Notification
 /* eslint-disable no-new */

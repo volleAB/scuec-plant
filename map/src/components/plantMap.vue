@@ -4,6 +4,7 @@
          id="allmap"></div>
     <info-dialog :showDialogFlag="show"
                  :plantInfo="plantInfo"
+                 :imgs="imgs"
                  @closeDialog="closeDialog"
                  @toHere="toHere"></info-dialog>
   </div>
@@ -52,7 +53,25 @@ export default {
         distribution: '产于全国各地。',
         value:
           '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
-      }
+      },
+      imgs: [
+        {
+          src: './static/img/demo/1.png',
+          alt: '示例图片'
+        },
+        {
+          src: './static/img/demo/2.png',
+          alt: '示例图片'
+        },
+        {
+          src: './static/img/demo/3.png',
+          alt: '示例图片'
+        },
+        {
+          src: './static/img/demo/4.png',
+          alt: '示例图片'
+        }
+      ]
     }
   },
   mounted() {
@@ -67,7 +86,7 @@ export default {
       this.map.addPlant(this.plants)
       this.clickHandler()
     },
-    clickHandler(){
+    clickHandler() {
       let _this = this
       this.map.markers.forEach(item => {
         let data = item.data
@@ -96,7 +115,7 @@ export default {
       this.currentPos = new BMap.Point(114.399538, 30.494813)
       this.walking = new BMap.WalkingRoute(map, walkingOpt)
     },
-    clearWalking(){
+    clearWalking() {
       this.walking.clearResults()
     }
   },

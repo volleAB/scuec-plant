@@ -25,7 +25,19 @@
         <h4 class="fg">【属】{{plantInfo.genus}} </h4>
       </el-col>
     </el-row>
-    // TODO: 增加对图片的展示
+    <el-row>
+      <el-carousel :interval="3000"
+                   arrow="hover"
+                   height="400px">
+        <el-carousel-item v-for="item in imgs"
+                          :key="item">
+          <div id="carousel-img-container">
+            <img :src="item.src"
+                 :alt="item.alt">
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </el-row>
     <el-row>
       <el-col :span="12">
         <h4 class="title">【校园位置】</h4>
@@ -88,6 +100,10 @@ export default {
     },
     plantInfo: {
       type: Object
+    },
+    imgs: {
+      type: Array,
+      required: true
     }
   },
   methods: {
@@ -109,6 +125,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
