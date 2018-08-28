@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <el-container class="h100">
+    <el-container class="h100"
+                  v-loading.fullscreen.lock="loading">
       <el-aside class="map-aside box-shadow">
         <el-row class="menu">
           <el-col>
@@ -100,7 +101,7 @@
 </template>
 
 <script>
-import '@/assets/style/index.less';
+import '@/assets/style/index.less'
 import _ from 'lodash'
 import plantMap from './components/plantMap'
 import testData from './assets/data/test0814'
@@ -130,6 +131,7 @@ export default {
     return {
       allPlants: testData.data,
       plants: testData.data,
+      loading: false,
       search: {
         type: 'family',
         value: ''
@@ -180,8 +182,8 @@ export default {
         family.push(item.family)
       })
 
-      return _.union(family).sort((a,b) => {
-         return a.localeCompare(b, 'zh-CN')
+      return _.union(family).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
       })
     },
     genus() {
@@ -189,8 +191,8 @@ export default {
       this.allPlants.forEach(item => {
         genus.push(item.genus)
       })
-      return _.union(genus).sort((a,b) => {
-         return a.localeCompare(b, 'zh-CN')
+      return _.union(genus).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
       })
     },
     street() {
@@ -198,8 +200,8 @@ export default {
       this.allPlants.forEach(item => {
         street.push(item.pos.street)
       })
-      return _.union(street).sort((a,b) => {
-         return a.localeCompare(b, 'zh-CN')
+      return _.union(street).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
       })
     },
     building() {
@@ -207,8 +209,8 @@ export default {
       this.allPlants.forEach(item => {
         building.push(item.pos.building)
       })
-      return _.union(building).sort((a,b) => {
-         return a.localeCompare(b, 'zh-CN')
+      return _.union(building).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
       })
     }
   },
@@ -269,6 +271,28 @@ export default {
         message: '已在地图上显示全部植物'
       })
     }
+  },
+  beforeCreate() {
+    this.loading = true
+    /* this.$axios
+      .get('test0814.json', {
+        baseURL: 'http://pctl0oi5b.bkt.clouddn.com'
+      })
+      .then(res => {
+        this.loading = false
+        this.allPlants = res.data.data
+        this.plants = res.data.data
+      }) */
+    this.$axios
+      .get('api/plant')
+      .then(res => {
+        return res.data
+      })
+      .then(data => {
+        this.loading = false
+        this.allPlants = data.result
+        this.plants = data.result
+      })
   }
 }
 </script>

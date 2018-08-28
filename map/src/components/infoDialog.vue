@@ -29,8 +29,8 @@
       <el-carousel :interval="3000"
                    arrow="hover"
                    height="400px">
-        <el-carousel-item v-for="item in imgs"
-                          :key="item">
+        <el-carousel-item v-for="(item, index) in imgs"
+                          :key="index">
           <div id="carousel-img-container">
             <img :src="item.src"
                  :alt="item.alt">

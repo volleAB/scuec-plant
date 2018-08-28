@@ -24,8 +24,13 @@ import {
   FormItem,
   Dialog,
   Carousel,
-  CarouselItem
+  CarouselItem,
+  Loading
 } from 'element-ui'
+
+import axios from './axios'
+
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
@@ -50,6 +55,7 @@ Vue.use(Dialog)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 
+Vue.use(Loading.directive)
 Vue.prototype.$notify = Notification
 /* eslint-disable no-new */
 new Vue({
