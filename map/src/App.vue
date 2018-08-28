@@ -292,7 +292,17 @@ export default {
         this.loading = false
         this.allPlants = data.result
         this.plants = data.result
+        console.log(data.result)
       })
+    /* fetch('http://59.68.29.67:8000/api/plant', {
+      method: 'GET'
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+      }) */
   }
 }
 </script>

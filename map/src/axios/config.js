@@ -1,5 +1,5 @@
 const config = {
-  baseURL: 'http://59.68.29.67:6000',
+  baseURL: 'http://59.68.29.67:8000',
   timeout: 3000
 }
 
