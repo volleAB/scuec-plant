@@ -3,19 +3,17 @@
              :visible.sync="showDialogFlag">
     <el-row>
       <el-col :span="12">
-        <h3 class="title">【学名】：{{plantInfo.name}}</h3>
+        <h2 class="title">【学名】：{{plantInfo.name}}</h2>
       </el-col>
       <el-col :span="12">
-        <h3 class="title">【英文学名】：{{plantInfo.eName}}</h3>
+        <h2 class="title">【英文学名】：{{plantInfo.eName}}</h2>
       </el-col>
     </el-row>
     <el-row>
-      <el-col>
+      <el-col :span="12">
         <h4 class="reviser">【所有修订者】: {{plantInfo.allReviser.join('，')}}</h4>
       </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
+      <el-col :span="12">
         <h4 class="reviser">【最后修订者】：{{plantInfo.lastReviser}}</h4>
       </el-col>
     </el-row>
@@ -27,25 +25,57 @@
         <h4 class="fg">【属】{{plantInfo.genus}} </h4>
       </el-col>
     </el-row>
-    // TODO: 增加对图片的展示
     <el-row>
-      <el-col>
-        <h3 class="pos">{{pos}}</h3>
+      <el-carousel :interval="3000"
+                   arrow="hover"
+                   height="400px">
+        <el-carousel-item v-for="(item, index) in imgs"
+                          :key="index">
+          <div id="carousel-img-container">
+            <img :src="item.src"
+                 :alt="item.alt">
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
+        <h4 class="title">【校园位置】</h4>
+        <span class="pos">{{pos}}</span>
+      </el-col>
+      <el-col :span="12">
+        <h4 class="title">【全球定位】</h4>
+        <span class="pos">经度：{{plantInfo.lng}} 纬度：{{plantInfo.lat}}</span>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <p class="sharp">【形态描述】{{plantInfo.sharp}}</p>
+        <h3>【形态描述】</h3>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <p class="destribution">【分布】{{plantInfo.distribution}}</p>
+        <p class="sharp">{{plantInfo.sharp}}</p>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <p class="value">【药用价值】{{plantInfo.value}}</p>
+        <h3>【分布】</h3>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <p class="destribution">{{plantInfo.distribution}}</p>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <h3>【药用价值】</h3>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <p class="value">{{plantInfo.value}}</p>
       </el-col>
     </el-row>
     <div slot="footer">
@@ -70,6 +100,10 @@ export default {
     },
     plantInfo: {
       type: Object
+    },
+    imgs: {
+      type: Array,
+      required: true
     }
   },
   methods: {
@@ -91,6 +125,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

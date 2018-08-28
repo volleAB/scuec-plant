@@ -16,7 +16,7 @@ map.init()
 //   { enableHighAccuracy: true }
 // )
 
-var options = {
+/* var options = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0
@@ -35,4 +35,11 @@ function error(err) {
   console.warn('ERROR(' + err.code + '): ' + err.message)
 }
 
-navigator.geolocation.getCurrentPosition(success, error, options)
+navigator.geolocation.getCurrentPosition(success, error, options) */
+
+let icon = new BMap.Icon('SnowPea.gif', new BMap.Size(160, 160))
+let marker = new BMap.Marker(new BMap.Point(114.398627, 30.495661), {
+  icon: icon
+})
+
+map.map.addOverlay(marker)

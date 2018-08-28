@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <el-container class="h100">
+    <el-container class="h100"
+                  v-loading.fullscreen.lock="loading">
       <el-aside class="map-aside box-shadow">
         <el-row class="menu">
           <el-col>
@@ -38,7 +39,7 @@
                   <i class="el-icon-location"></i>
                   <span>科</span>
                 </template>
-                <el-menu-item v-for="(item, index) in families"
+                <el-menu-item v-for="(item, index) in family"
                               :key="index"
                               :index="`1-${index}`">
                   <div @click="update"
@@ -50,7 +51,7 @@
                   <i class="el-icon-location-outline"></i>
                   <span>属</span>
                 </template>
-                <el-menu-item v-for="(item, index) in genera"
+                <el-menu-item v-for="(item, index) in genus"
                               :key="index"
                               :index="`2-${index}`">
                   <div @click="update"
@@ -62,7 +63,7 @@
                   <i class="el-icon-location"></i>
                   <span>道路</span>
                 </template>
-                <el-menu-item v-for="(item, index) in streets"
+                <el-menu-item v-for="(item, index) in street"
                               :key="index"
                               :index="`3-${index}`">
                   <div @click="update"
@@ -74,7 +75,7 @@
                   <i class="el-icon-rank"></i>
                   <span>建筑</span>
                 </template>
-                <el-menu-item v-for="(item, index) in buildings"
+                <el-menu-item v-for="(item, index) in building"
                               :key="index"
                               :index="`4-${index}`">
                   <div @click="update"
@@ -100,6 +101,7 @@
 </template>
 
 <script>
+import '@/assets/style/index.less'
 import _ from 'lodash'
 import plantMap from './components/plantMap'
 import testData from './assets/data/test0814'
@@ -129,8 +131,9 @@ export default {
     return {
       allPlants: testData.data,
       plants: testData.data,
+      loading: false,
       search: {
-        type: 'families',
+        type: 'family',
         value: ''
       },
       searchRules: {
@@ -152,19 +155,19 @@ export default {
       select: [
         {
           label: '科',
-          value: 'families'
+          value: 'family'
         },
         {
           label: '属',
-          value: 'genera'
+          value: 'genus'
         },
         {
           label: '道路',
-          value: 'streets'
+          value: 'street'
         },
         {
           label: '建筑',
-          value: 'buildings'
+          value: 'building'
         }
       ]
     }
@@ -173,34 +176,42 @@ export default {
     plantMap
   },
   computed: {
-    families() {
-      let families = []
+    family() {
+      let family = []
       this.allPlants.forEach(item => {
-        families.push(item.family)
+        family.push(item.family)
       })
 
-      return _.union(families)
-    },
-    genera() {
-      let genera = []
-      this.allPlants.forEach(item => {
-        genera.push(item.genus)
+      return _.union(family).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
       })
-      return _.union(genera)
     },
-    streets() {
-      let streets = []
+    genus() {
+      let genus = []
       this.allPlants.forEach(item => {
-        streets.push(item.pos.street)
+        genus.push(item.genus)
       })
-      return _.union(streets)
+      return _.union(genus).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
+      })
     },
-    buildings() {
-      let buildings = []
+    street() {
+      let street = []
       this.allPlants.forEach(item => {
-        buildings.push(item.pos.building)
+        street.push(item.pos.street)
       })
-      return _.union(buildings)
+      return _.union(street).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
+      })
+    },
+    building() {
+      let building = []
+      this.allPlants.forEach(item => {
+        building.push(item.pos.building)
+      })
+      return _.union(building).sort((a, b) => {
+        return a.localeCompare(b, 'zh-CN')
+      })
     }
   },
   methods: {
@@ -227,19 +238,11 @@ export default {
     searchPlant() {
       let fg = ['family', 'genus']
       let { type, value } = this.search
-      let transform = {
-        families: 'family',
-        genera: 'genus',
-        streets: 'street',
-        buildings: 'building'
-      }
-      type = transform[type]
       if (!type || !value) {
         this.plants = this.allPlants
         console.log('type null or value null')
         return
       }
-      console.log(`该选择类型为 -- ${type}`)
       if (!fg.includes(type)) {
         this.plants = _.filter(this.allPlants, {
           pos: {
@@ -250,7 +253,6 @@ export default {
         this.plants = _.filter(this.allPlants, { [type]: value })
       }
       if (this.plants.length) {
-        console.log(this.plants)
         this.$notify.success({
           title: '提示',
           message: `此时显示 ${type} -- ${value} 中的所有植物`
@@ -269,6 +271,38 @@ export default {
         message: '已在地图上显示全部植物'
       })
     }
+  },
+  beforeCreate() {
+    this.loading = true
+    /* this.$axios
+      .get('test0814.json', {
+        baseURL: 'http://pctl0oi5b.bkt.clouddn.com'
+      })
+      .then(res => {
+        this.loading = false
+        this.allPlants = res.data.data
+        this.plants = res.data.data
+      }) */
+    this.$axios
+      .get('api/plant')
+      .then(res => {
+        return res.data
+      })
+      .then(data => {
+        this.loading = false
+        this.allPlants = data.result
+        this.plants = data.result
+        console.log(data.result)
+      })
+    /* fetch('http://59.68.29.67:8000/api/plant', {
+      method: 'GET'
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+      }) */
   }
 }
 </script>
@@ -308,5 +342,8 @@ body {
 
 .map-aside {
   padding: 10px;
+}
+.anchorBL {
+  display: none;
 }
 </style>
