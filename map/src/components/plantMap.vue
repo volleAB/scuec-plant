@@ -131,7 +131,7 @@ export default {
       //BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
       //BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
       //BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
-      let geolocation = new BMap.Geolocation()
+      /* let geolocation = new BMap.Geolocation()
       let opts = {
         enableHighAccuracy: true
       }
@@ -150,22 +150,42 @@ export default {
         } else {
           console.error(`failed ${this.getStatus()}`)
         }
-      }, opts)
-      /* let _this = this
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        let x = pos.coords.longitude
-        let y = pos.coords.latitude
-        let point = [new BMap.Point(x, y)]
-        let convertor = new BMap.Convertor()
-        let translateFun = function(result) {
-          if ((result.status = BMAP_STATUS_SUCCESS)) {
-            console.log(result)
-          } else {
-            console.error(`fail ${result.status}`)
+      }, opts) */
+      let _this = this
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(successFunc, failedFunc)
+        function successFunc(pos) {
+          let x = pos.coords.longitude
+          let y = pos.coords.latitude
+          console.log(x, y)
+          let point = [new BMap.Point(x, y)]
+          let convertor = new BMap.Convertor()
+          let translateFun = function(result) {
+            if ((result.status = BMAP_STATUS_SUCCESS)) {
+              console.log(result)
+            } else {
+              console.error(`fail ${result.status}`)
+            }
+          }
+          convertor.translate(point, 1, 5, translateFun)
+        }
+        function failedFunc(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert('User denied the request for Geolocation.')
+              break
+            case error.POSITION_UNAVAILABLE:
+              alert('Location information is unavailable.')
+              break
+            case error.TIMEOUT:
+              alert('The request to get user location timed out.')
+              break
+            case error.UNKNOWN_ERROR:
+              alert('An unknown error occurred.')
+              break
           }
         }
-        convertor.translate(point, 1, 5)
-      }) */
+      }
     }
   },
   watch: {
