@@ -112,11 +112,80 @@ export default {
           autoViewport: false
         }
       }
-      this.currentPos = new BMap.Point(114.399538, 30.494813)
+      this.getCureentPos()
       this.walking = new BMap.WalkingRoute(map, walkingOpt)
     },
     clearWalking() {
       this.walking.clearResults()
+    },
+    getCureentPos() {
+      // this.currentPos = new BMap.Point(114.399538, 30.494813)
+      // 使用百度API的定位，来确定起始点
+      //关于状态码
+      //BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+      //BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+      //BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+      //BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+      //BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+      //BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+      //BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+      //BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+      //BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+      /* let geolocation = new BMap.Geolocation()
+      let opts = {
+        enableHighAccuracy: true
+      }
+      let _this = this
+      geolocation.getCurrentPosition(function(r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+          _this.currentPos = r.point
+          let marker = new BMap.Marker(r.point, {
+            title: '当前所在位置',
+            // TODO: 设置一个当前位置的图标
+            icon: ''
+          })
+          console.log(
+            `current pos (${r.point.lng}, ${r.point.lat}) address ${r.address}`
+          )
+        } else {
+          console.error(`failed ${this.getStatus()}`)
+        }
+      }, opts) */
+      let _this = this
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(successFunc, failedFunc)
+        function successFunc(pos) {
+          let x = pos.coords.longitude
+          let y = pos.coords.latitude
+          console.log(x, y)
+          let point = [new BMap.Point(x, y)]
+          let convertor = new BMap.Convertor()
+          let translateFun = function(result) {
+            if ((result.status = BMAP_STATUS_SUCCESS)) {
+              console.log(result)
+            } else {
+              console.error(`fail ${result.status}`)
+            }
+          }
+          convertor.translate(point, 1, 5, translateFun)
+        }
+        function failedFunc(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert('User denied the request for Geolocation.')
+              break
+            case error.POSITION_UNAVAILABLE:
+              alert('Location information is unavailable.')
+              break
+            case error.TIMEOUT:
+              alert('The request to get user location timed out.')
+              break
+            case error.UNKNOWN_ERROR:
+              alert('An unknown error occurred.')
+              break
+          }
+        }
+      }
     }
   },
   watch: {
