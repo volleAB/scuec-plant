@@ -270,24 +270,10 @@ export default {
         title: '提示',
         message: '已在地图上显示全部植物'
       })
-    },
-    getAllPlant() {
-      this.loading = true
-      this.$axios
-        .get('api/plant')
-        .then(res => {
-          return res.data
-        })
-        .then(data => {
-          this.loading = false
-          this.allPlants = data.result
-          this.plants = data.result
-          console.log(data.result)
-        })
     }
   },
   beforeCreate() {
-    this.getAllPlant()
+    this.loading = true
     /* this.$axios
       .get('test0814.json', {
         baseURL: 'http://pctl0oi5b.bkt.clouddn.com'
@@ -297,7 +283,17 @@ export default {
         this.allPlants = res.data.data
         this.plants = res.data.data
       }) */
-
+    this.$axios
+      .get('api/plant')
+      .then(res => {
+        return res.data
+      })
+      .then(data => {
+        this.loading = false
+        this.allPlants = data.result
+        this.plants = data.result
+        console.log(data.result)
+      })
     /* fetch('http://59.68.29.67:8000/api/plant', {
       method: 'GET'
     })

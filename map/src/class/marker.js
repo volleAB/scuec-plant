@@ -3,10 +3,13 @@ class Marker {
     this.data = opt
     this.marker = null
     this.window = null
-    this.iconUrl = 'http://pctl0oi5b.bkt.clouddn.com/SnowPea.gif'
-    this.localUrl = './static/img/SnowPea.gif'
-    this.icon = new BMap.Icon(this.localUrl, new BMap.Size(26, 26))
-    this.icon.setImageSize(new BMap.Size(26, 26))
+    // this.iconUrl = 'http://pctl0oi5b.bkt.clouddn.com/SnowPea.gif'
+    // this.localUrl = './static/img/SnowPea.gif'
+    this.i = Math.floor(Math.random() * 9) + 1
+    this.localUrl = `./static/icon/tree${this.i}.png`
+    this.icon = new BMap.Icon(this.localUrl, new BMap.Size(46, 46))
+    this.icon.setImageSize(new BMap.Size(46, 46))
+    this.showFlag = null
   }
 
   getMarker() {
@@ -20,12 +23,15 @@ class Marker {
     this.setNoticeWindow()
   }
   setNoticeWindow() {
-    this.marker.addEventListener('mouseover', e => {
-      this.marker.openInfoWindow(this.window)
-    })
-    this.marker.addEventListener('mouseout', e => {
-      this.marker.closeInfoWindow()
-    })
+    let _this = this
+    this.marker.addEventListener('mouseover', open)
+    this.marker.addEventListener('mouseout', close)
+    function open(e) {
+      _this.marker.openInfoWindow(_this.window)
+    }
+    function close(e) {
+      _this.marker.closeInfoWindow()
+    }
   }
   initNoticeWindow() {
     let html = `
