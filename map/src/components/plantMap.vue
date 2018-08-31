@@ -54,6 +54,7 @@ export default {
         value:
           '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
       },
+      // TODO: 正式上线后，这些图片都要删除，且更换成接口获取
       imgs: [
         {
           src: './static/img/demo/1.png',
@@ -70,7 +71,55 @@ export default {
         {
           src: './static/img/demo/4.png',
           alt: '示例图片'
+        },
+        {
+          src: './static/img/demo/5.jpg',
+          alt: '示例图片'
         }
+      ],
+      /**
+       *D:\校园植物分布图\scuec-plant\map\static\test\detail\604x340.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\670x377.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\743x418.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\827x465.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\919x517.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1022x575.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1134x638.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1260x709.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1399x787.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1552x873.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1724x970.jpg
+       D:\校园植物分布图\scuec-plant\map\static\test\detail\1920x1080.jpg
+       */
+      testOne: [
+        { src: './static/test/detail/one/604x340.jpg' },
+        { src: './static/test/detail/one/670x377.jpg' },
+        { src: './static/test/detail/one/743x418.jpg' },
+        { src: './static/test/detail/one/827x465.jpg' },
+        { src: './static/test/detail/one/919x517.jpg' },
+        { src: './static/test/detail/one/1022x575.jpg' },
+        { src: './static/test/detail/one/1134x638.jpg' },
+        { src: './static/test/detail/one/1260x709.jpg' },
+        { src: './static/test/detail/one/1399x787.jpg' },
+        { src: './static/test/detail/one/1552x873.jpg' },
+        { src: './static/test/detail/one/1724x970.jpg' },
+        { src: './static/test/detail/one/1920x1080.jpg' }
+      ],
+      testTwo: [
+        /* { src: './static/test/detail/two/491x276.jpg' },
+        { src: './static/test/detail/two/546x307.jpg' },
+        { src: './static/test/detail/two/604x340.jpg' },
+        { src: './static/test/detail/two/670x377.jpg' },
+        { src: './static/test/detail/two/743x418.jpg' },
+        { src: './static/test/detail/two/827x465.jpg' },
+        { src: './static/test/detail/two/919x517.jpg' },
+        { src: './static/test/detail/two/1022x575.jpg' },
+        { src: './static/test/detail/two/1134x638.jpg' },
+        { src: './static/test/detail/two/1260x709.jpg' },
+        { src: './static/test/detail/two/1399x787.jpg' },
+        { src: './static/test/detail/two/1552x873.jpg' },
+        { src: './static/test/detail/two/1724x970.jpg' }, */
+        { src: './static/test/detail/two/1920x1080.jpg' }
       ]
     }
   },
