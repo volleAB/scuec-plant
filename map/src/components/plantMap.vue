@@ -4,7 +4,6 @@
          id="allmap"></div>
     <info-dialog :showDialogFlag="show"
                  :plantInfo="plantInfo"
-                 :imgs="imgs"
                  @closeDialog="closeDialog"
                  @toHere="toHere"></info-dialog>
   </div>
@@ -47,80 +46,13 @@ export default {
         lastReviser: 'Underw',
         family: '木耳',
         genus: '木耳',
-        img: './img/木耳',
+        img: '[./img/木耳]',
         sharp:
           '形状如耳朵，系寄生于枯木上的一种菌类，富含铁、钙、磷和维生素B1等。新鲜的木耳呈胶质片状，半透明，侧生在树木上，耳片直径5～10厘米，有弹性，腹面平滑下凹，边缘略上卷，背面凸起，并有极细的绒毛，呈黑褐色或茶褐色。干燥后收缩为角质状，硬而脆性，背面暗灰色或灰白色；入水后膨胀，可恢复原状，柔软而半透明，表面附有滑润的粘液。',
         distribution: '产于全国各地。',
         value:
           '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
-      },
-      // TODO: 正式上线后，这些图片都要删除，且更换成接口获取
-      imgs: [
-        {
-          src: './static/img/demo/1.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/2.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/3.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/4.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/5.jpg',
-          alt: '示例图片'
-        }
-      ],
-      /**
-       *D:\校园植物分布图\scuec-plant\map\static\test\detail\604x340.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\670x377.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\743x418.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\827x465.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\919x517.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1022x575.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1134x638.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1260x709.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1399x787.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1552x873.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1724x970.jpg
-       D:\校园植物分布图\scuec-plant\map\static\test\detail\1920x1080.jpg
-       */
-      testOne: [
-        { src: './static/test/detail/one/604x340.jpg' },
-        { src: './static/test/detail/one/670x377.jpg' },
-        { src: './static/test/detail/one/743x418.jpg' },
-        { src: './static/test/detail/one/827x465.jpg' },
-        { src: './static/test/detail/one/919x517.jpg' },
-        { src: './static/test/detail/one/1022x575.jpg' },
-        { src: './static/test/detail/one/1134x638.jpg' },
-        { src: './static/test/detail/one/1260x709.jpg' },
-        { src: './static/test/detail/one/1399x787.jpg' },
-        { src: './static/test/detail/one/1552x873.jpg' },
-        { src: './static/test/detail/one/1724x970.jpg' },
-        { src: './static/test/detail/one/1920x1080.jpg' }
-      ],
-      testTwo: [
-        /* { src: './static/test/detail/two/491x276.jpg' },
-        { src: './static/test/detail/two/546x307.jpg' },
-        { src: './static/test/detail/two/604x340.jpg' },
-        { src: './static/test/detail/two/670x377.jpg' },
-        { src: './static/test/detail/two/743x418.jpg' },
-        { src: './static/test/detail/two/827x465.jpg' },
-        { src: './static/test/detail/two/919x517.jpg' },
-        { src: './static/test/detail/two/1022x575.jpg' },
-        { src: './static/test/detail/two/1134x638.jpg' },
-        { src: './static/test/detail/two/1260x709.jpg' },
-        { src: './static/test/detail/two/1399x787.jpg' },
-        { src: './static/test/detail/two/1552x873.jpg' },
-        { src: './static/test/detail/two/1724x970.jpg' }, */
-        { src: './static/test/detail/two/1920x1080.jpg' }
-      ]
+      }
     }
   },
   mounted() {
@@ -145,8 +77,8 @@ export default {
         })
       })
     },
-    closeDialog() {
-      this.show = false
+    closeDialog(...data) {
+      this.show = data[0]
     },
     toHere() {
       this.show = false
