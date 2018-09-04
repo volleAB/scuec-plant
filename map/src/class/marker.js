@@ -1,3 +1,4 @@
+import _ from 'lodash'
 class Marker {
   constructor(opt) {
     this.data = opt
@@ -24,8 +25,18 @@ class Marker {
   }
   setNoticeWindow() {
     let _this = this
-    this.marker.addEventListener('mouseover', open)
-    this.marker.addEventListener('mouseout', close)
+    this.marker.addEventListener(
+      'mouseover',
+      _.throttle(open, 1000, {
+        leading: true
+      })
+    )
+    this.marker.addEventListener(
+      'mouseout',
+      _.throttle(close, 1000, {
+        leading: true
+      })
+    )
     function open(e) {
       _this.marker.openInfoWindow(_this.window)
     }
