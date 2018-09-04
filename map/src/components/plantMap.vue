@@ -57,6 +57,10 @@ export default {
   },
   mounted() {
     this.createMap()
+    this.$notify({
+      title: '获取当前位置',
+      message: '正在获取当前位置，请等待。。。'
+    })
     this.initWalking()
   },
   methods: {
@@ -81,6 +85,8 @@ export default {
       this.show = data[0]
     },
     toHere() {
+      // 获取当前位置
+
       this.show = false
       this.targetPos = new BMap.Point(this.plantInfo.lng, this.plantInfo.lat)
       this.walking.search(this.currentPos, this.targetPos)
@@ -94,7 +100,19 @@ export default {
         }
       }
       this.getCureentPos()
-      this.walking = new BMap.WalkingRoute(map, walkingOpt)
+        .then(() => {
+          this.$notify.success({
+            title: '提示',
+            message: '当前位置已获取，可使用导航功能。'
+          })
+          this.walking = new BMap.WalkingRoute(map, walkingOpt)
+        })
+        .catch(err => {
+          this.$notify.error({
+            title: '提示',
+            message: '位置信息获取失败，将无法使用导航功能。'
+          })
+        })
     },
     clearWalking() {
       this.walking.clearResults()
@@ -112,27 +130,29 @@ export default {
       //BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
       //BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
       //BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
-      /* let geolocation = new BMap.Geolocation()
-      let opts = {
-        enableHighAccuracy: true
-      }
-      let _this = this
-      geolocation.getCurrentPosition(function(r) {
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-          _this.currentPos = r.point
-          let marker = new BMap.Marker(r.point, {
-            title: '当前所在位置',
-            // TODO: 设置一个当前位置的图标
-            icon: ''
-          })
-          console.log(
-            `current pos (${r.point.lng}, ${r.point.lat}) address ${r.address}`
-          )
-        } else {
-          console.error(`failed ${this.getStatus()}`)
+      return new Promise((resolve, reject) => {
+        let geolocation = new BMap.Geolocation()
+        let opts = {
+          enableHighAccuracy: false
         }
-      }, opts) */
-      let _this = this
+        let _this = this
+        geolocation.getCurrentPosition(function(r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            _this.currentPos = r.point
+            let marker = new BMap.Marker(r.point, {
+              title: '当前所在位置',
+              // TODO: 设置一个当前位置的图标
+              icon: ''
+            })
+            resolve()
+            console.log(`current pos (${r.point.lng}, ${r.point.lat})`)
+          } else {
+            reject(this.getStatus())
+            console.error(`failed ${this.getStatus()}`)
+          }
+        }, opts)
+      })
+      /* let _this = this
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(successFunc, failedFunc)
         function successFunc(pos) {
@@ -166,15 +186,14 @@ export default {
               break
           }
         }
-      }
+      } */
     }
   },
   watch: {
     plants: function() {
       let center = new BMap.Point(this.plants[0].lng, this.plants[0].lat)
-      this.clearWalking()
+      // this.clearWalking()
       this.map.removePlant()
-      console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
       this.clickHandler()
       this.map.map.panTo(center)
