@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="植物详情"
-             :visible.sync="showDialogFlag">
+             :visible.sync="show">
     <el-row>
       <el-col :span="12">
         <h2 class="title">【学名】：{{plantInfo.name}}</h2>
@@ -29,11 +29,10 @@
       <el-carousel :interval="3000"
                    arrow="hover"
                    height="400px">
-        <el-carousel-item v-for="(item, index) in imgs"
+        <el-carousel-item v-for="(item, index) in plantInfo.img"
                           :key="index">
           <div id="carousel-img-container">
-            <img :src="item.src"
-                 :alt="item.alt">
+            <img :src="item">
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -91,7 +90,9 @@
 export default {
   name: 'infoDialog',
   data() {
-    return {}
+    return {
+      show: null
+    }
   },
   props: {
     showDialogFlag: {
@@ -100,15 +101,11 @@ export default {
     },
     plantInfo: {
       type: Object
-    },
-    imgs: {
-      type: Array,
-      required: true
     }
   },
   methods: {
     closeDialog() {
-      this.$emit('closeDialog')
+      this.$emit('closeDialog', false)
     },
     toHere() {
       this.$emit('toHere')
@@ -121,6 +118,17 @@ export default {
         this.plantInfo.pos.building +
         this.plantInfo.pos.distance
       return pos
+    }
+  },
+  mounted() {
+    this.show = this.showDialogFlag
+  },
+  watch: {
+    show: function(newV, oldV) {
+      this.$emit('closeDialog', newV)
+    },
+    showDialogFlag: function(newV, oldV) {
+      this.show = newV
     }
   }
 }

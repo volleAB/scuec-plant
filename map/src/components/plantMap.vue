@@ -4,7 +4,6 @@
          id="allmap"></div>
     <info-dialog :showDialogFlag="show"
                  :plantInfo="plantInfo"
-                 :imgs="imgs"
                  @closeDialog="closeDialog"
                  @toHere="toHere"></info-dialog>
   </div>
@@ -47,35 +46,21 @@ export default {
         lastReviser: 'Underw',
         family: '木耳',
         genus: '木耳',
-        img: './img/木耳',
+        img: '[./img/木耳]',
         sharp:
           '形状如耳朵，系寄生于枯木上的一种菌类，富含铁、钙、磷和维生素B1等。新鲜的木耳呈胶质片状，半透明，侧生在树木上，耳片直径5～10厘米，有弹性，腹面平滑下凹，边缘略上卷，背面凸起，并有极细的绒毛，呈黑褐色或茶褐色。干燥后收缩为角质状，硬而脆性，背面暗灰色或灰白色；入水后膨胀，可恢复原状，柔软而半透明，表面附有滑润的粘液。',
         distribution: '产于全国各地。',
         value:
           '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
-      },
-      imgs: [
-        {
-          src: './static/img/demo/1.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/2.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/3.png',
-          alt: '示例图片'
-        },
-        {
-          src: './static/img/demo/4.png',
-          alt: '示例图片'
-        }
-      ]
+      }
     }
   },
   mounted() {
     this.createMap()
+    this.$notify({
+      title: '获取当前位置',
+      message: '正在获取当前位置，请等待。。。'
+    })
     this.initWalking()
   },
   methods: {
@@ -96,10 +81,12 @@ export default {
         })
       })
     },
-    closeDialog() {
-      this.show = false
+    closeDialog(...data) {
+      this.show = data[0]
     },
     toHere() {
+      // 获取当前位置
+
       this.show = false
       this.targetPos = new BMap.Point(this.plantInfo.lng, this.plantInfo.lat)
       this.walking.search(this.currentPos, this.targetPos)
@@ -113,7 +100,19 @@ export default {
         }
       }
       this.getCureentPos()
-      this.walking = new BMap.WalkingRoute(map, walkingOpt)
+        .then(() => {
+          this.$notify.success({
+            title: '提示',
+            message: '当前位置已获取，可使用导航功能。'
+          })
+          this.walking = new BMap.WalkingRoute(map, walkingOpt)
+        })
+        .catch(err => {
+          this.$notify.error({
+            title: '提示',
+            message: '位置信息获取失败，将无法使用导航功能。'
+          })
+        })
     },
     clearWalking() {
       this.walking.clearResults()
@@ -131,27 +130,29 @@ export default {
       //BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
       //BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
       //BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
-      /* let geolocation = new BMap.Geolocation()
-      let opts = {
-        enableHighAccuracy: true
-      }
-      let _this = this
-      geolocation.getCurrentPosition(function(r) {
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-          _this.currentPos = r.point
-          let marker = new BMap.Marker(r.point, {
-            title: '当前所在位置',
-            // TODO: 设置一个当前位置的图标
-            icon: ''
-          })
-          console.log(
-            `current pos (${r.point.lng}, ${r.point.lat}) address ${r.address}`
-          )
-        } else {
-          console.error(`failed ${this.getStatus()}`)
+      return new Promise((resolve, reject) => {
+        let geolocation = new BMap.Geolocation()
+        let opts = {
+          enableHighAccuracy: false
         }
-      }, opts) */
-      let _this = this
+        let _this = this
+        geolocation.getCurrentPosition(function(r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            _this.currentPos = r.point
+            let marker = new BMap.Marker(r.point, {
+              title: '当前所在位置',
+              // TODO: 设置一个当前位置的图标
+              icon: ''
+            })
+            resolve()
+            console.log(`current pos (${r.point.lng}, ${r.point.lat})`)
+          } else {
+            reject(this.getStatus())
+            console.error(`failed ${this.getStatus()}`)
+          }
+        }, opts)
+      })
+      /* let _this = this
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(successFunc, failedFunc)
         function successFunc(pos) {
@@ -185,15 +186,14 @@ export default {
               break
           }
         }
-      }
+      } */
     }
   },
   watch: {
     plants: function() {
       let center = new BMap.Point(this.plants[0].lng, this.plants[0].lat)
-      this.clearWalking()
+      // this.clearWalking()
       this.map.removePlant()
-      console.log(`目前地图需要展示的植物 -- ${this.plants}`)
       this.map.addPlant(this.plants)
       this.clickHandler()
       this.map.map.panTo(center)
