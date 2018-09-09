@@ -292,7 +292,6 @@ export default {
         this.loading = false
         this.allPlants = data.result
         this.plants = data.result
-        console.table(data.result)
       })
     /* fetch('http://59.68.29.67:8000/api/plant', {
       method: 'GET'
