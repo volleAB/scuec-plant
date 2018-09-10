@@ -29,9 +29,17 @@ const plantSchema = mongoose.Schema({
     value: String
 });
 
+//声明schema
+const userSchema = mongoose.Schema({
+    userName: String,
+    passWord: String,
+    date: String
+});
+
 //根据schema生成model
 const model = {
-    Plant: mongoose.model('Plant', plantSchema)
+    Plant: mongoose.model('Plant', plantSchema),
+    User: mongoose.model('User', userSchema)
 };
 
-module.exports = model;
+module.exports = model
