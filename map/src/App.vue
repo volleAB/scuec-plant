@@ -136,6 +136,7 @@ export default {
         type: 'family',
         value: ''
       },
+
       searchRules: {
         type: [
           {
@@ -215,12 +216,12 @@ export default {
     }
   },
   methods: {
+    // TODO: 处理事件的重复触发，导致的地图抖动
     update(e) {
       let fg = ['family', 'genus']
       let el = e.target
       let value = el.innerText
       let type = el.dataset.type
-      console.log(`该选择类型为 -- ${type}`)
       this.$notify.success({
         title: '提示',
         message: `此时显示 ${type} -- ${value} 中的所有植物`
