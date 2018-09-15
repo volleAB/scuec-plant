@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-
+import router from './router'
 import {
   Container,
   Header,
@@ -25,12 +25,22 @@ import {
   Dialog,
   Carousel,
   CarouselItem,
-  Loading
+  Loading,
+  Footer,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Table,
+  TableColumn
 } from 'element-ui'
 
 import axios from './axios'
+import _ from 'lodash'
+import '@/assets/style/index.less'
+import '@/assets/icon/iconfont.css'
 
 Vue.prototype.$axios = axios
+Vue.prototype._ = _
 
 Vue.config.productionTip = false
 
@@ -38,6 +48,7 @@ Vue.use(Container)
 Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
+Vue.use(Footer)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Menu)
@@ -54,12 +65,18 @@ Vue.use(FormItem)
 Vue.use(Dialog)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
-
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+Vue.use(Table)
+Vue.use(TableColumn)
 Vue.use(Loading.directive)
+
 Vue.prototype.$notify = Notification
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   components: { App },
   template: '<App/>'
 })
