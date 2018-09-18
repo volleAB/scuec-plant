@@ -31,7 +31,10 @@ import {
   DropdownMenu,
   DropdownItem,
   Table,
-  TableColumn
+  TableColumn,
+  Popover,
+  MessageBox,
+  Message
 } from 'element-ui'
 
 import axios from './axios'
@@ -71,8 +74,13 @@ Vue.use(DropdownItem)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Loading.directive)
+Vue.use(Popover)
 
 Vue.prototype.$notify = Notification
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$message = Message
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
