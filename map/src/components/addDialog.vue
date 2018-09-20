@@ -16,6 +16,15 @@
       <el-form-item label="属">
         <el-input v-model="addForm.genus"></el-input>
       </el-form-item>
+      <el-form-item label="修订者">
+        <el-popover title="输入提示"
+                    placement="top-start"
+                    trigger="focus"
+                    content="按照先后顺序输入，且以逗号分隔。">
+          <el-input v-model="addForm.allReviser"
+                    slot="reference"></el-input>
+        </el-popover>
+      </el-form-item>
       <el-form-item label="经度">
         <el-input v-model="addForm.lng"></el-input>
       </el-form-item>
@@ -80,7 +89,7 @@ export default {
         },
         lng: null,
         lat: null,
-        allReviser: [],
+        allReviser: '',
         lastReviser: '',
         family: '',
         genus: '',
@@ -108,7 +117,9 @@ export default {
     },
     onSubmit() {
       this.show = false
-      this.$emit('add', this.addForm)
+      let info = this._.assign(null, this.addForm)
+      info.allReviser = info.allReviser.split(/[,，]/)
+      this.$emit('add', info)
     }
   }
 }

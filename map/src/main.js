@@ -34,7 +34,8 @@ import {
   TableColumn,
   Popover,
   MessageBox,
-  Message
+  Message,
+  Progress
 } from 'element-ui'
 
 import axios from './axios'
@@ -75,6 +76,7 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Loading.directive)
 Vue.use(Popover)
+Vue.use(Progress)
 
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert

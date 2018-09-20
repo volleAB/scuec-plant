@@ -31,10 +31,9 @@
                 v-loading="loading"
                 style="width: 100%"
                 max-height="580"
-                stripe
                 highlight-current-row
-                tooltip-effect="light">
-
+                tooltip-effect="dark"
+                @selection-change="addSelected">
         <el-table-column type="selection"
                          width="40"></el-table-column>
 
@@ -121,21 +120,35 @@
       <add-dialog :showFlag="showAddD"
                   @close="closeAddDialog"
                   @add="submitAdd"></add-dialog>
+      <del-dialog :showFlag="showDelD"
+                  :data="selectedPlants"
+                  @close="closeDelDialog"
+                  @complete="delComplete"></del-dialog>
     </el-main>
+    <el-footer>
+      <el-button type="primary"
+                 @click="clearSelection">取消选择</el-button>
+      <el-button type="danger"
+                 @click="delAllSelected">批量删除</el-button>
+    </el-footer>
   </el-container>
 </template>
 
 <script>
 import EditDialog from '@/components/editDialog'
 import AddDialog from '@/components/addDialog'
+import DelDialog from '@/components/delDialog'
 export default {
   name: 'PlantManager',
   components: {
     EditDialog,
-    AddDialog
+    AddDialog,
+    DelDialog
   },
   data() {
     return {
+      showDelD: false,
+      selectedPlants: [],
       plants: [],
       allPlants: [],
       loading: true,
@@ -241,6 +254,9 @@ export default {
     closeAddDialog(...data) {
       this.showAddD = data[0]
     },
+    closeDelDialog(...data) {
+      this.showDelD = data[0]
+    },
     submitEdit(info) {
       let index = this.plants.findIndex(el => {
         return el.name === this.nowName
@@ -251,7 +267,22 @@ export default {
       this.plants.splice(index, 1, info)
       this.allPlants.splice(index2, 1, info)
     },
-    submitAdd(info) {},
+    submitAdd(info) {
+      this.$axios
+        .post('addplant', info)
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: '信息添加成功'
+          })
+        })
+        .catch(err => {
+          this.$message({
+            type: 'error',
+            message: '信息添加失败'
+          })
+        })
+    },
     searchPlants() {
       this._.forOwn(this.searchForm, (value, key) => {
         if (value) {
@@ -266,6 +297,52 @@ export default {
     },
     showAllPlants() {
       this.plants = this.allPlants
+    },
+    toggleAllSelection() {
+      this.$refs.table.toggleAllSelection()
+    },
+    clearSelection() {
+      this.$refs.table.clearSelection()
+    },
+    delAllSelected() {
+      if (this.selectedPlants.length) {
+        this.showDelD = true
+        this.$notify({
+          type: 'success',
+          message: '正在删除。。。'
+        })
+      } else {
+        this.$notify({
+          type: 'error',
+          message: '未选中任何植物，无需删除！'
+        })
+      }
+    },
+    addSelected(selection) {
+      this.selectedPlants = selection
+    },
+    delComplete(delD) {
+      let index = []
+      let index2 = []
+      console.log(delD)
+      delD.forEach(el => {
+        index.push(
+          this.plants.findIndex(item => {
+            return item.name === el
+          })
+        )
+        index2.push(
+          this.allPlants.findIndex(item => {
+            return item.name === el
+          })
+        )
+      })
+      index.forEach(el => {
+        this.plants.splice(el, 1)
+      })
+      index2.forEach(el => {
+        this.allPlants.splice(el, 1)
+      })
     }
   },
   computed: {
