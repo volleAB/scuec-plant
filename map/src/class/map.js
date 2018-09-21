@@ -15,8 +15,8 @@ class Map {
     //BMAP_ANIMATION_BOUNCE弹跳动画，BMAP_ANIMATION_DROP坠落动画，设置为 null 则没有动画
     this.markers = []
     // this.infoWindow = new InfoWindow()
-    this.sw = new BMap.Point(114.394786, 30.485107)
-    this.ne = new BMap.Point(114.405189, 30.501724)
+    this.sw = new BMap.Point(114.390304, 30.483987)
+    this.ne = new BMap.Point(114.410673, 30.503459)
     this.bounds = new BMap.Bounds(this.sw, this.ne)
   }
 

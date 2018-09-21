@@ -78,9 +78,9 @@
       </el-col>
     </el-row>
     <div slot="footer">
-      <el-button type="error"
+      <el-button type="text"
                  @click="closeDialog">退出</el-button>
-      <el-button type="success"
+      <el-button type="primary"
                  @click="toHere">到此处</el-button>
     </div>
   </el-dialog>

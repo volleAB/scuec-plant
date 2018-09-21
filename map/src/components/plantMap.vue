@@ -30,7 +30,6 @@ export default {
       show: false,
       currentPos: null,
       targetPos: null,
-
       walking: null,
       plantInfo: {
         name: '木耳',
