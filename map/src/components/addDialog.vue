@@ -74,11 +74,19 @@ export default {
     showFlag: {
       type: Boolean,
       required: true
+    },
+    point: {
+      type: Object,
+      default: {
+        lng: '',
+        lat: ''
+      }
     }
   },
   data() {
     return {
       show: false,
+      currentP: null,
       addForm: {
         name: '',
         eName: '',
@@ -102,6 +110,7 @@ export default {
   },
   mounted() {
     this.show = this.showFlag
+    this.currentP = this.point
   },
   watch: {
     show: function(newV, oldV) {
@@ -109,6 +118,13 @@ export default {
     },
     showFlag: function(newV, oldV) {
       this.show = newV
+    },
+    point: function(newV) {
+      this.currentP = newV
+    },
+    currentP: function(newV) {
+      this.addForm.lng = newV.lng
+      this.addForm.lat = newV.lat
     }
   },
   methods: {
