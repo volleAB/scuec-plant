@@ -3,6 +3,7 @@
   "plugins": [
     "transform-vue-jsx",
     "transform-runtime",
+    "transform-object-rest-spread",
     [
       "component",
       {

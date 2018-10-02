@@ -70,7 +70,7 @@ export default {
             let length = this.error.length + this.success.length
             if (length === this.maxIndex) {
               this.show = false
-              this.$emit('complete', this.success)
+              // this.$emit('complete', this.success)
             }
           })
       })

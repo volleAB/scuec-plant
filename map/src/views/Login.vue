@@ -74,7 +74,6 @@ export default {
           .then(data => {
             if (data.success) {
               this.loginFlag = false
-              this.btnText = '登录成功'
               this.$notify({
                 type: 'success',
                 title: '提示',
