@@ -6,8 +6,10 @@ Vue.use(Router)
 const Home = resolve => require(['../views/Home.vue'], resolve)
 const Login = resolve => require(['../views/Login.vue'], resolve)
 const Admin = resolve => require(['../views/Admin.vue'], resolve)
+
 const PlantManager = resolve =>
   require(['../components/plantManager.vue'], resolve)
+
 export default new Router({
   mode: 'history',
   routes: [
