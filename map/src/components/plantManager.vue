@@ -1,6 +1,6 @@
 <template>
-  <el-container>
-    <el-header height="40px">
+  <el-container class="plantM-container">
+    <el-header class="plantM-header">
       <el-form ref="searchForm"
                :model="searchForm"
                inline>
@@ -20,7 +20,11 @@
           <el-button @click="searchPlants">搜索</el-button>
           <el-button type="primary"
                      @click="addPlant">添加</el-button>
-          <el-button @click="showAllPlants">显示所有植物</el-button>
+          <el-tooltip content="获取所有植物信息"
+                      placement="top">
+            <el-button @click="showAllPlants"
+                       icon="el-icon-refresh">刷新</el-button>
+          </el-tooltip>
         </el-form-item>
       </el-form>
     </el-header>
@@ -30,7 +34,7 @@
                 ref="table"
                 v-loading="loading"
                 style="width: 100%"
-                max-height="580"
+                max-height="540"
                 highlight-current-row
                 tooltip-effect="dark"
                 @selection-change="addSelected">
