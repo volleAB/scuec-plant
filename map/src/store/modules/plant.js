@@ -14,10 +14,10 @@ const plant = {
     },
     DEL_PLANT: (state, name) => {
       delPlant(name).then(() => {
-        let index = state.plant.findIndex(item => {
+        let index = state.plant.result.findIndex(item => {
           return item.name === name
         })
-        state.plant.splice(index, 1)
+        state.plant.result.splice(index, 1)
       })
     }
   },

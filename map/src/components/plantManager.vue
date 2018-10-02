@@ -198,30 +198,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.$axios
-            .post('delplant', {
-              name: name
-            })
-            .then(res => {
-              let index = this.plants.findIndex(el => {
-                return el.name === name
-              })
-              let index2 = this.allPlants.findIndex(el => {
-                return el.name === name
-              })
-              this.allPlants.splice(index2, 1)
-              this.plants.splice(index, 1)
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-            })
-            .catch(err => {
-              this.$message({
-                type: 'error',
-                message: '删除失败！'
-              })
-            })
+          this.$store.dispatch('delPlant', name)
         })
         .catch(() => {
           this.$message({
