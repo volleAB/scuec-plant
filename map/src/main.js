@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import {
   Container,
   Header,
@@ -79,7 +80,6 @@ Vue.use(Loading.directive)
 Vue.use(Popover)
 Vue.use(Progress)
 Vue.use(Tooltip)
-
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
@@ -89,6 +89,7 @@ Vue.prototype.$message = Message
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

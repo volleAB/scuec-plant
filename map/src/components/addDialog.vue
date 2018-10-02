@@ -77,9 +77,11 @@ export default {
     },
     point: {
       type: Object,
-      default: {
-        lng: '',
-        lat: ''
+      default: function() {
+        return {
+          lat: '',
+          lng: ''
+        }
       }
     }
   },

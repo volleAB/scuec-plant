@@ -237,16 +237,15 @@ export default {
       this.nowName = row.name
     },
     getAllPlants() {
-      this.$axios
-        .get('plant')
-        .then(res => {
-          this.loading = false
-          return res.data
+      if (this.$store.getters.plant) {
+        this.loading = false
+        this.plants = this.$store.getters.plant
+        this.allPlants = this.$store.getters.plant
+      } else {
+        this.$store.dispatch('getPlant').then(() => {
+          this.getAllPlants()
         })
-        .then(data => {
-          this.plants = data.result
-          this.allPlants = data.result
-        })
+      }
     },
     filter(value, row, col) {
       const property = col['property']

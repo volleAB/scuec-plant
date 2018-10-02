@@ -93,7 +93,7 @@
           </el-col>
         </el-row>
       </el-aside>
-      <el-main>
+      <el-main class="main-bg-color">
         <plant-map :plants="plants"></plant-map>
       </el-main>
     </el-container>
@@ -273,34 +273,15 @@ export default {
   },
   beforeCreate() {
     this.loading = true
-    /* this.$axios
-      .get('test0814.json', {
-        baseURL: 'http://pctl0oi5b.bkt.clouddn.com'
+    if (this.$store.getters.plant) {
+      this.loading = false
+      this.plants = this.$store.getters.plant
+      this.allPlants = this.$store.getters.plant
+    } else {
+      this.$store.dispatch('getPlant').then(() => {
+        this.beforeCreate()
       })
-      .then(res => {
-        this.loading = false
-        this.allPlants = res.data.data
-        this.plants = res.data.data
-      }) */
-    this.$axios
-      .get('plant')
-      .then(res => {
-        return res.data
-      })
-      .then(data => {
-        this.loading = false
-        this.allPlants = data.result
-        this.plants = data.result
-      })
-    /* fetch('http://59.68.29.67:8000/api/plant', {
-      method: 'GET'
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        console.log(data)
-      }) */
+    }
   }
 }
 </script>
