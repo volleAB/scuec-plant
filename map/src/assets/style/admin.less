@@ -59,3 +59,20 @@
 .main-view {
   max-height: 720px;
 }
+
+// transition
+
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.slide-fade-enter {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
