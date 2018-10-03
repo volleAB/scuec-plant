@@ -201,6 +201,7 @@ export default {
                 return item.name === name
               })
               this.plants.splice(index, 1)
+              this.researchFlag = false
             }
           })
         })
