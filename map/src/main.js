@@ -4,6 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+
+import VeHistogram from 'v-charts/lib/histogram.common'
+import VeLine from 'v-charts/lib/line.common'
+import VeBar from 'v-charts/lib/bar.common'
+
 import {
   Container,
   Header,
@@ -37,7 +42,9 @@ import {
   MessageBox,
   Message,
   Progress,
-  Tooltip
+  Tooltip,
+  TabPane,
+  Tabs
 } from 'element-ui'
 
 import axios from './axios'
@@ -80,11 +87,17 @@ Vue.use(Loading.directive)
 Vue.use(Popover)
 Vue.use(Progress)
 Vue.use(Tooltip)
+Vue.use(TabPane)
+Vue.use(Tabs)
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$message = Message
+
+Vue.component(VeHistogram.name, VeHistogram)
+Vue.component(VeLine.name, VeLine)
+Vue.component(VeBar.name, VeBar)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
