@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import lottie from 'vue-lottie'
+
 import VeHistogram from 'v-charts/lib/histogram.common'
 import VeLine from 'v-charts/lib/line.common'
 import VeBar from 'v-charts/lib/bar.common'
@@ -98,6 +100,9 @@ Vue.prototype.$message = Message
 Vue.component(VeHistogram.name, VeHistogram)
 Vue.component(VeLine.name, VeLine)
 Vue.component(VeBar.name, VeBar)
+
+Vue.component('lottie', lottie)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

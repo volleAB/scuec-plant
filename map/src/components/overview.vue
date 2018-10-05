@@ -35,9 +35,11 @@
                     </router-link>
                   </el-col>
                   <el-col :span="12">
-                    <router-link :to="{name: 'plantManager'}">
-                      <el-button type="text">查看详情</el-button>
-                    </router-link>
+                    <div class="vcenter-container">
+                      <router-link :to="{name: 'plantManager'}">
+                        <el-button type="text">查看详情</el-button>
+                      </router-link>
+                    </div>
                   </el-col>
                 </el-row>
               </el-col>
