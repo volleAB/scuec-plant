@@ -20,11 +20,8 @@
           <el-button @click="searchPlants">搜索</el-button>
           <el-button type="primary"
                      @click="addPlant">添加</el-button>
-          <el-tooltip content="获取所有植物信息"
-                      placement="top">
-            <el-button @click="showAllPlants"
-                       icon="el-icon-refresh">刷新</el-button>
-          </el-tooltip>
+          <el-button @click="showAllPlants"
+                     icon="el-icon-refresh">显示所有植物</el-button>
         </el-form-item>
       </el-form>
     </el-header>
@@ -126,8 +123,7 @@
                   @add="submitAdd"></add-dialog>
       <del-dialog :showFlag="showDelD"
                   :data="selectedPlants"
-                  @close="closeDelDialog"
-                  @complete="delComplete"></del-dialog>
+                  @close="closeDelDialog"></del-dialog>
     </el-main>
     <el-footer>
       <el-button type="primary"
@@ -154,7 +150,6 @@ export default {
       showDelD: false,
       selectedPlants: [],
       plants: [],
-      allPlants: [],
       loading: true,
       searchForm: {
         name: '',
@@ -184,12 +179,14 @@ export default {
       },
       showEditD: false,
       showAddD: false,
-      nowName: null
+      nowName: null,
+      researchFlag: false
     }
   },
   mounted() {
     this.getAllPlants()
   },
+
   methods: {
     deletePlant(name) {
       this.$confirm(`此操作将永久删除${name}, 是否继续?`, '提示', {
@@ -198,30 +195,15 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.$axios
-            .post('delplant', {
-              name: name
-            })
-            .then(res => {
-              let index = this.plants.findIndex(el => {
-                return el.name === name
+          this.$store.dispatch('delPlant', name).then(() => {
+            if (this.researchFlag) {
+              let index = this.plants.findIndex(item => {
+                return item.name === name
               })
-              let index2 = this.allPlants.findIndex(el => {
-                return el.name === name
-              })
-              this.allPlants.splice(index2, 1)
               this.plants.splice(index, 1)
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-            })
-            .catch(err => {
-              this.$message({
-                type: 'error',
-                message: '删除失败！'
-              })
-            })
+              this.researchFlag = false
+            }
+          })
         })
         .catch(() => {
           this.$message({
@@ -237,16 +219,14 @@ export default {
       this.nowName = row.name
     },
     getAllPlants() {
-      this.$axios
-        .get('plant')
-        .then(res => {
-          this.loading = false
-          return res.data
+      if (this.$store.getters.plant) {
+        this.loading = false
+        this.plants = this.$store.getters.plant
+      } else {
+        this.$store.dispatch('getPlant').then(() => {
+          this.getAllPlants()
         })
-        .then(data => {
-          this.plants = data.result
-          this.allPlants = data.result
-        })
+      }
     },
     filter(value, row, col) {
       const property = col['property']
@@ -293,6 +273,7 @@ export default {
           this.plants = this._.filter(this.plants, {
             [key]: value
           })
+          this.researchFlag = true
         }
       })
     },
@@ -324,41 +305,14 @@ export default {
     },
     addSelected(selection) {
       this.selectedPlants = selection
-    },
-    delComplete(delD) {
-      let index = []
-      let index2 = []
-      console.log(delD)
-      delD.forEach(el => {
-        index.push(
-          this.plants.findIndex(item => {
-            return item.name === el
-          })
-        )
-        index2.push(
-          this.allPlants.findIndex(item => {
-            return item.name === el
-          })
-        )
-      })
-      index.forEach(el => {
-        this.plants.splice(el, 1)
-      })
-      index2.forEach(el => {
-        this.allPlants.splice(el, 1)
-      })
     }
   },
   computed: {
+    allPlants() {
+      return this.$store.getters.plant
+    },
     familyF() {
-      let family = []
-      this.plants.forEach(item => {
-        family.push(item.family)
-      })
-      let familyF = this._.union(family).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-      return familyF.map(value => {
+      return this.$store.getters.family.map(value => {
         return {
           text: value,
           value: value
@@ -366,14 +320,7 @@ export default {
       })
     },
     genusF() {
-      let genus = []
-      this.plants.forEach(item => {
-        genus.push(item.genus)
-      })
-      let genusF = this._.union(genus).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-      return genusF.map(value => {
+      return this.$store.getters.genus.map(value => {
         return {
           text: value,
           value: value

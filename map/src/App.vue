@@ -5,5 +5,10 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'App',
+  mounted() {
+    this.$store.dispatch('getPlant')
+  }
+}
 </script>

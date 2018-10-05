@@ -74,13 +74,14 @@ export default {
           .then(data => {
             if (data.success) {
               this.loginFlag = false
-              this.btnText = '登录成功'
               this.$notify({
                 type: 'success',
                 title: '提示',
                 message: '登录成功,欢迎使用管理平台！'
               })
-              this.$router.push({ name: 'Admin' })
+              this.$store.dispatch('setToken', true).then(() => {
+                this.$router.push({ path: '/admin/overview' })
+              })
             } else {
               this.loginFlag = false
               this.btnText = '重新登录'
