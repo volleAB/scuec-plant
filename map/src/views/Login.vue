@@ -1,7 +1,11 @@
 <template>
-  <el-container class="login">
-    <div class="login-content-container">
+  <div class="login">
+    <el-container class="login-content-container">
       <el-main class="login-content_main">
+        <lottie :options="pumped_upAOptions"
+                :height="200"
+                :width="200"
+                @animCreated="pumped_upAnimation"></lottie>
         <el-form :model="login"
                  :rules="rules"
                  ref="login">
@@ -25,15 +29,26 @@
                    :loading="loginFlag"
                    @click="loginHandle">{{btnText}}</el-button>
       </el-footer>
-    </div>
-  </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
+import * as deadpoolAData from '@/assets/lottie/deadpool.json'
+import * as pumped_upAData from '@/assets/lottie/pumped_up.json'
 export default {
   name: 'Login',
   data() {
     return {
+      deadpoolAOptions: {
+        animationData: deadpoolAData
+      },
+      pumped_upAOptions: {
+        animationData: pumped_upAData
+      },
+      pumped_upAObj: null,
+      animationSpeed: 1,
+      deadpoolAObj: null,
       login: {
         account: 'admin',
         password: '123'
@@ -59,6 +74,14 @@ export default {
     }
   },
   methods: {
+    deadpoolAnimation(anim) {
+      this.deadpoolAObj = anim
+      console.log(anim)
+    },
+    deadpoolAnimation(anim) {
+      this.pumped_upAObj = anim
+      console.log(anim)
+    },
     loginHandle() {
       if (this.login.account && this.login.password) {
         this.loginFlag = true
