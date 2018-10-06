@@ -14,8 +14,10 @@
                     align="middle">
               <el-col :span="6">
                 <div class="icon-container">
-                  <img src="@/assets/icon/tree.png" alt="植物总数" style="width: 100%">
-            </div>
+                  <img src="@/assets/icon/tree.png"
+                       alt="植物总数"
+                       style="width: 100%">
+                </div>
               </el-col>
               <el-col :span="6">
                 <el-row>
@@ -28,7 +30,7 @@
                     <p>植物总数</p>
                   </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                   <el-col :span="12">
                     <router-link :to="{name: 'addPlant'}">
                       <el-button type="primary">添加</el-button>
@@ -41,7 +43,7 @@
                       </router-link>
                     </div>
                   </el-col>
-                </el-row>
+                </el-row> -->
               </el-col>
               <el-col :span="1">
                 <div class="vcenter-container">
@@ -50,8 +52,10 @@
               </el-col>
               <el-col :span="6">
                 <div class="icon-container">
-                  <img src="@/assets/icon/tree2.png" alt="科属分类" style="width: 100%">
-            </div>
+                  <img src="@/assets/icon/tree2.png"
+                       alt="科属分类"
+                       style="width: 100%">
+                </div>
               </el-col>
               <el-col :span="5">
                 <el-row>

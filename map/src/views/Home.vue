@@ -86,13 +86,21 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col>
-            <el-button type="primary"
-                       class="allP-btn"
-                       @click="showAllPlants">全部植物</el-button>
+          <el-col :span="12">
+            <div class="vcenter-container">
+              <el-button type="primary"
+                         @click="showAllPlants">全部植物</el-button>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="vcenter-container">
+              <el-button @click="showOverview">信息概览</el-button>
+            </div>
           </el-col>
         </el-row>
       </el-aside>
+      <overview-dialog :showFlag="showOFlag"
+                       @closeDialog="closeODialog"></overview-dialog>
       <el-main class="main-bg-color">
         <plant-map :plants="plants"></plant-map>
       </el-main>
@@ -102,6 +110,7 @@
 
 <script>
 import plantMap from '@/components/plantMap'
+import overviewDialog from '@/components/overviewDialog'
 import { mapGetters } from 'vuex'
 export default {
   name: 'App',
@@ -127,6 +136,7 @@ export default {
       callback()
     }
     return {
+      showOFlag: false,
       plants: [],
       loading: false,
       search: {
@@ -170,7 +180,8 @@ export default {
     }
   },
   components: {
-    plantMap
+    plantMap,
+    overviewDialog
   },
   computed: {
     ...mapGetters(['building', 'street', 'genus', 'family', 'plant'])
@@ -231,6 +242,12 @@ export default {
         title: '提示',
         message: '已在地图上显示全部植物'
       })
+    },
+    showOverview() {
+      this.showOFlag = true
+    },
+    closeODialog(...data) {
+      this.showOFlag = data[0]
     }
   },
   mounted() {
