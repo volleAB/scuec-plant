@@ -13,6 +13,7 @@
           <el-form-item prop="password">
             <el-input v-model="login.password"
                       placeholder="密码"
+                      type="password"
                       prefix-icon="el-icon-password"
                       @keyup.enter.native="loginHandle"></el-input>
           </el-form-item>

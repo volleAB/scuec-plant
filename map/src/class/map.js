@@ -53,6 +53,17 @@ class Map {
     this.markers = []
     this.map.clearOverlays() // 清除所有覆盖物
   }
+  setMiniBounds() {
+    this.sw = new BMap.Point(114.393488, 30.484656)
+    this.ne = new BMap.Point(114.405117, 30.501705)
+    this.bounds = new BMap.Bounds(this.sw, this.ne)
+    // 设置地图显示范围, sw是西南点，ne是东北点
+    try {
+      BMapLib.AreaRestriction.setBounds(this.map, this.bounds)
+    } catch (e) {
+      alert(e)
+    }
+  }
 }
 
 export default Map

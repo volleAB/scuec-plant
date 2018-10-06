@@ -1,5 +1,5 @@
 <template>
-  <div class="map h100 box-shadow">
+  <div class="map h100">
     <div class="plantMap h100"
          id="allmap"></div>
     <info-dialog :showDialogFlag="show"
