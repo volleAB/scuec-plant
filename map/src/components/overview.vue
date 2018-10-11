@@ -176,7 +176,7 @@ export default {
         dataArr.push({
           family: key,
           number: value,
-          rate: value / totalN
+          rate: (value / totalN).toFixed(2)
         })
       })
       dataArr = dataArr.sort((a, b) => {
@@ -199,7 +199,7 @@ export default {
         dataArr.push({
           genus: key,
           number: value,
-          rate: value / totalN
+          rate: (value / totalN).toFixed(2)
         })
       })
       dataArr = dataArr.sort((a, b) => {

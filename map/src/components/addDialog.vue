@@ -137,6 +137,26 @@ export default {
       this.show = false
       let info = this._.assign(null, this.addForm)
       info.allReviser = info.allReviser.split(/[,，]/)
+      info.lastReviser = info.allReviser[info.allReviser.length - 1]
+      this.addForm = {
+        name: '',
+        eName: '',
+        pos: {
+          street: '',
+          building: '',
+          distance: ''
+        },
+        lng: null,
+        lat: null,
+        allReviser: '',
+        lastReviser: '',
+        family: '',
+        genus: '',
+        img: '',
+        sharp: '',
+        distribution: '',
+        value: ''
+      }
       this.$emit('add', info)
     }
   }

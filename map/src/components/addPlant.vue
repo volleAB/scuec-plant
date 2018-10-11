@@ -55,7 +55,7 @@ export default {
       this.showFlag = data[0]
     },
     submitAdd(info) {
-      this.$state
+      this.$store
         .dispatch('addPlant', info)
         .then(res => {
           this.$message({
