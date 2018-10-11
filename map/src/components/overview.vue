@@ -59,7 +59,13 @@
               </el-col>
               <el-col :span="5">
                 <el-row>
-                  <el-col :span="8">
+                  <span class="plant-Number">{{plantTotalF}}</span><span> 科</span>
+                </el-row>
+                <el-row>
+                  <span class="plant-Number">{{plantTotalG}}</span><span> 属</span>
+                </el-row>
+
+                <!-- <el-col :span="8">
                     <p>总计</p>
                   </el-col>
                   <el-col :span="8">
@@ -73,6 +79,10 @@
                         <span class="plant-Number">{{plantTotalG}}</span><span> 属</span>
                       </el-col>
                     </el-row>
+                  </el-col> -->
+                <el-row>
+                  <el-col>
+                    <p>总计</p>
                   </el-col>
                 </el-row>
               </el-col>

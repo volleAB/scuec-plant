@@ -46,7 +46,8 @@ import {
   Progress,
   Tooltip,
   TabPane,
-  Tabs
+  Tabs,
+  Upload
 } from 'element-ui'
 
 import axios from './axios'
@@ -91,6 +92,7 @@ Vue.use(Progress)
 Vue.use(Tooltip)
 Vue.use(TabPane)
 Vue.use(Tabs)
+Vue.use(Upload)
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm

@@ -19,6 +19,10 @@
           <i class="el-icon-plus"></i>
           <span slot="title">添加植物</span>
         </el-menu-item>
+        <el-menu-item index="/admin/addImage">
+          <i class="el-icon-upload"></i>
+          <span slot="title">上传图片</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container id="admin-content">

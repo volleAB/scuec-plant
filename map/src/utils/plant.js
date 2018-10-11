@@ -11,3 +11,7 @@ export function delPlant(name) {
     name: name
   })
 }
+
+export function addPlant(pInfo) {
+  return axios.post('addplant', pInfo)
+}
