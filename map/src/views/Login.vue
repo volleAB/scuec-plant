@@ -78,7 +78,7 @@ export default {
       this.deadpoolAObj = anim
       console.log(anim)
     },
-    deadpoolAnimation(anim) {
+    pumped_upAnimation(anim) {
       this.pumped_upAObj = anim
       console.log(anim)
     },

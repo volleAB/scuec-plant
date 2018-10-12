@@ -55,8 +55,8 @@ export default {
       this.showFlag = data[0]
     },
     submitAdd(info) {
-      this.$axios
-        .post('addplant', info)
+      this.$store
+        .dispatch('addPlant', info)
         .then(res => {
           this.$message({
             type: 'success',

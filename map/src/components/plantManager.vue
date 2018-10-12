@@ -17,9 +17,11 @@
                     v-model="searchForm.genus"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="searchPlants">搜索</el-button>
-          <el-button type="primary"
-                     @click="addPlant">添加</el-button>
+
+          <el-button @click="searchPlants"
+                     type="primary">搜索</el-button>
+          <!-- <el-button type="primary"
+                     @click="addPlant">添加</el-button> -->
           <el-button @click="showAllPlants"
                      icon="el-icon-refresh">显示所有植物</el-button>
         </el-form-item>

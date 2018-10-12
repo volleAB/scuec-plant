@@ -19,6 +19,10 @@
           <i class="el-icon-plus"></i>
           <span slot="title">添加植物</span>
         </el-menu-item>
+        <el-menu-item index="/admin/addImage">
+          <i class="el-icon-upload"></i>
+          <span slot="title">上传图片</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container id="admin-content">
@@ -48,11 +52,11 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </div>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click="userManager">
-                  信息管理
+                <el-dropdown-item>
+                  <router-link :to="{name: 'manager'}">信息管理</router-link>
                 </el-dropdown-item>
-                <el-dropdown-item @click="exit">
-                  退出系统
+                <el-dropdown-item>
+                  <router-link :to="{name: 'exit'}">退出系统</router-link>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -77,14 +81,7 @@ export default {
       avatar: 'http://pctl0oi5b.bkt.clouddn.com/one.gif'
     }
   },
-  methods: {
-    userManager() {
-      alert('user manager')
-    },
-    exit() {
-      alert('exit')
-    }
-  }
+  methods: {}
 }
 </script>
 

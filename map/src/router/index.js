@@ -10,8 +10,10 @@ const Help = resolve => require(['../components/help.vue'], resolve)
 const ContactUs = resolve => require(['../components/contactUs.vue'], resolve)
 const Overview = resolve => require(['../components/overview.vue'], resolve)
 const AddPlant = resolve => require(['../components/addPlant.vue'], resolve)
+const AddImage = resolve => require(['../components/addImage.vue'], resolve)
 const PlantManager = resolve =>
   require(['../components/plantManager.vue'], resolve)
+const Manager = resolve => require(['../components/manager.vue'], resolve)
 const router = new Router({
   mode: 'history',
   routes: [
@@ -47,6 +49,11 @@ const router = new Router({
           component: AddPlant
         },
         {
+          path: 'addImage',
+          name: 'addImage',
+          component: AddImage
+        },
+        {
           path: 'contactUs',
           name: 'contactUs',
           component: ContactUs
@@ -55,6 +62,15 @@ const router = new Router({
           path: 'help',
           name: 'help',
           component: Help
+        },
+        {
+          path: 'manager',
+          name: 'manager',
+          component: Manager
+        },
+        {
+          path: 'exit',
+          name: 'exit'
         }
       ]
     }
