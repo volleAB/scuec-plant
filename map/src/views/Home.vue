@@ -93,7 +93,7 @@
           </el-col>
         </el-row>
       </el-aside>
-      <el-main>
+      <el-main class="main-bg-color">
         <plant-map :plants="plants"></plant-map>
       </el-main>
     </el-container>
@@ -102,7 +102,7 @@
 
 <script>
 import plantMap from '@/components/plantMap'
-import testData from '@/assets/data/test0814'
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   data() {
@@ -127,14 +127,12 @@ export default {
       callback()
     }
     return {
-      allPlants: testData.data,
-      plants: testData.data,
+      plants: [],
       loading: false,
       search: {
         type: 'family',
         value: ''
       },
-
       searchRules: {
         type: [
           {
@@ -175,43 +173,7 @@ export default {
     plantMap
   },
   computed: {
-    family() {
-      let family = []
-      this.allPlants.forEach(item => {
-        family.push(item.family)
-      })
-
-      return this._.union(family).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-    },
-    genus() {
-      let genus = []
-      this.allPlants.forEach(item => {
-        genus.push(item.genus)
-      })
-      return this._.union(genus).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-    },
-    street() {
-      let street = []
-      this.allPlants.forEach(item => {
-        street.push(item.pos.street)
-      })
-      return this._.union(street).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-    },
-    building() {
-      let building = []
-      this.allPlants.forEach(item => {
-        building.push(item.pos.building)
-      })
-      return this._.union(building).sort((a, b) => {
-        return a.localeCompare(b, 'zh-CN')
-      })
-    }
+    ...mapGetters(['building', 'street', 'genus', 'family', 'plant'])
   },
   methods: {
     // TODO: 处理事件的重复触发，导致的地图抖动
@@ -225,31 +187,31 @@ export default {
         message: `此时显示 ${type} -- ${value} 中的所有植物`
       })
       if (!fg.includes(type)) {
-        this.plants = this._.filter(this.allPlants, {
+        this.plants = this._.filter(this.plant, {
           pos: {
             [type]: value
           }
         })
       } else {
-        this.plants = this._.filter(this.allPlants, { [type]: value })
+        this.plants = this._.filter(this.plant, { [type]: value })
       }
     },
     searchPlant() {
       let fg = ['family', 'genus']
       let { type, value } = this.search
       if (!type || !value) {
-        this.plants = this.allPlants
+        this.plants = this.plant
         console.log('type null or value null')
         return
       }
       if (!fg.includes(type)) {
-        this.plants = this._.filter(this.allPlants, {
+        this.plants = this._.filter(this.plant, {
           pos: {
             [type]: value
           }
         })
       } else {
-        this.plants = this._.filter(this.allPlants, { [type]: value })
+        this.plants = this._.filter(this.plant, { [type]: value })
       }
       if (this.plants.length) {
         this.$notify.success({
@@ -264,43 +226,15 @@ export default {
       }
     },
     showAllPlants() {
-      this.plants = this.allPlants
+      this.plants = this.plant
       this.$notify.success({
         title: '提示',
         message: '已在地图上显示全部植物'
       })
     }
   },
-  beforeCreate() {
-    this.loading = true
-    /* this.$axios
-      .get('test0814.json', {
-        baseURL: 'http://pctl0oi5b.bkt.clouddn.com'
-      })
-      .then(res => {
-        this.loading = false
-        this.allPlants = res.data.data
-        this.plants = res.data.data
-      }) */
-    this.$axios
-      .get('plant')
-      .then(res => {
-        return res.data
-      })
-      .then(data => {
-        this.loading = false
-        this.allPlants = data.result
-        this.plants = data.result
-      })
-    /* fetch('http://59.68.29.67:8000/api/plant', {
-      method: 'GET'
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        console.log(data)
-      }) */
+  mounted() {
+    this.plants = this.$store.getters.plant
   }
 }
 </script>

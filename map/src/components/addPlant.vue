@@ -70,9 +70,6 @@ export default {
           })
         })
     }
-  },
-  watch: {
-    point: function(newV, oldV) {}
   }
 }
 </script>

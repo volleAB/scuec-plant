@@ -56,6 +56,60 @@
     padding-bottom: 10px;
   }
 }
-.main-view {
-  max-height: 720px;
+
+// transition
+
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.slide-fade-enter {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.chart-container {
+  background-color: #fff;
+  padding: 10px;
+}
+
+.part-container {
+  background-color: #fff;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+.part-header {
+  border-bottom: solid 1px #ededed;
+  padding-bottom: 8px;
+}
+
+.title {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.primary-icon {
+  color: @primary-color;
+  font-weight: bolder;
+}
+
+.plant-Number {
+  font-weight: bolder;
+  font-size: 28px;
+  color: @primary-color;
+}
+
+.vLine {
+  width: 2px;
+  height: 100px;
+  background-color: #ededed;
 }

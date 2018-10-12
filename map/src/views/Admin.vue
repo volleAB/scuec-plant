@@ -60,7 +60,10 @@
         </el-row>
       </el-header>
       <el-main class="main-view h100">
-        <router-view></router-view>
+        <transition name="slide-fade"
+                    mode="out-in">
+          <router-view></router-view>
+        </transition>
       </el-main>
     </el-container>
   </el-container>

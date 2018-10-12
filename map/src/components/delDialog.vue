@@ -48,17 +48,15 @@ export default {
     delData() {
       this.maxIndex = this.data.length
       this.data.forEach((el, index) => {
-        this.$axios
-          .post('delplant', {
-            name: el.name
-          })
+        this.$store
+          .dispatch('delPlant', el.name)
           .then(res => {
             this.$notify({
               type: 'success',
               message: `${el.name} 已被删除。`
             })
             this.index++
-            this.progress = this.index / this.maxIndex * 100
+            this.progress = (this.index / this.maxIndex) * 100
             this.success.push(el.name)
           })
           .catch(err => {
@@ -72,7 +70,7 @@ export default {
             let length = this.error.length + this.success.length
             if (length === this.maxIndex) {
               this.show = false
-              this.$emit('complete', this.success)
+              // this.$emit('complete', this.success)
             }
           })
       })

@@ -213,6 +213,7 @@ export default {
   },
   watch: {
     plants: function() {
+      console.log('plants', this.plants)
       let center = new BMap.Point(this.plants[0].lng, this.plants[0].lat)
       // this.clearWalking()
       this.map.removePlant()

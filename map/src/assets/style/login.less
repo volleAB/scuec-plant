@@ -1,14 +1,28 @@
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%;
+  background-color: #f5f5f5;
+  min-height: 750px;
+  text-align: center;
+  font-size: 14px;
 
-  .login-content-container {
-    width: 400px;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 85%;
+    vertical-align: middle;
   }
+}
 
-  .loginBtn {
-    width: 100%;
-  }
+.login-content-container {
+  width: 400px;
+  margin: 60px auto 0;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.loginBtn {
+  width: 100%;
 }
