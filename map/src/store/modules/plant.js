@@ -1,4 +1,4 @@
-import { getAllPlant, delPlant } from '@/utils/plant'
+import { getAllPlant, delPlant, addPlant } from '@/utils/plant'
 
 const plant = {
   state: {
@@ -19,6 +19,11 @@ const plant = {
         })
         state.plant.result.splice(index, 1)
       })
+    },
+    ADD_PLANT: (state, pInfo) => {
+      addPlant(pInfo).then(() => {
+        state.plant.result.push(pInfo)
+      })
     }
   },
   actions: {
@@ -27,6 +32,9 @@ const plant = {
     },
     delPlant({ commit }, name) {
       commit('DEL_PLANT', name)
+    },
+    addPlant({ commit }, pInfo) {
+      commit('ADD_PLANT', pInfo)
     }
   }
 }

@@ -3,6 +3,15 @@ import _ from 'lodash'
 const getters = {
   token: state => state.Auth.token,
   plant: state => state.Plant.plant.result,
+  nameOptions: state => {
+    let options = []
+    state.Plant.plant.result.forEach(item => {
+      options.push({
+        value: item.name
+      })
+    })
+    return options
+  },
   building: state => {
     let building = []
     state.Plant.plant.result.forEach(item => {

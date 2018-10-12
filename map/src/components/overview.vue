@@ -14,8 +14,10 @@
                     align="middle">
               <el-col :span="6">
                 <div class="icon-container">
-                  <img src="@/assets/icon/tree.png" alt="植物总数" style="width: 100%">
-            </div>
+                  <img src="@/assets/icon/tree.png"
+                       alt="植物总数"
+                       style="width: 100%">
+                </div>
               </el-col>
               <el-col :span="6">
                 <el-row>
@@ -28,7 +30,7 @@
                     <p>植物总数</p>
                   </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                   <el-col :span="12">
                     <router-link :to="{name: 'addPlant'}">
                       <el-button type="primary">添加</el-button>
@@ -41,7 +43,7 @@
                       </router-link>
                     </div>
                   </el-col>
-                </el-row>
+                </el-row> -->
               </el-col>
               <el-col :span="1">
                 <div class="vcenter-container">
@@ -50,12 +52,20 @@
               </el-col>
               <el-col :span="6">
                 <div class="icon-container">
-                  <img src="@/assets/icon/tree2.png" alt="科属分类" style="width: 100%">
-            </div>
+                  <img src="@/assets/icon/tree2.png"
+                       alt="科属分类"
+                       style="width: 100%">
+                </div>
               </el-col>
               <el-col :span="5">
                 <el-row>
-                  <el-col :span="8">
+                  <span class="plant-Number">{{plantTotalF}}</span><span> 科</span>
+                </el-row>
+                <el-row>
+                  <span class="plant-Number">{{plantTotalG}}</span><span> 属</span>
+                </el-row>
+
+                <!-- <el-col :span="8">
                     <p>总计</p>
                   </el-col>
                   <el-col :span="8">
@@ -69,6 +79,10 @@
                         <span class="plant-Number">{{plantTotalG}}</span><span> 属</span>
                       </el-col>
                     </el-row>
+                  </el-col> -->
+                <el-row>
+                  <el-col>
+                    <p>总计</p>
                   </el-col>
                 </el-row>
               </el-col>
@@ -162,7 +176,7 @@ export default {
         dataArr.push({
           family: key,
           number: value,
-          rate: value / totalN
+          rate: (value / totalN).toFixed(2)
         })
       })
       dataArr = dataArr.sort((a, b) => {
@@ -185,7 +199,7 @@ export default {
         dataArr.push({
           genus: key,
           number: value,
-          rate: value / totalN
+          rate: (value / totalN).toFixed(2)
         })
       })
       dataArr = dataArr.sort((a, b) => {
