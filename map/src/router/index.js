@@ -1,11 +1,12 @@
 import Router from 'vue-router'
 import Vue from 'vue'
-import { beforeEachFunc } from './interceptors'
+// import { beforeEachFunc } from './interceptors'
 Vue.use(Router)
 
 const Home = resolve => require(['../views/Home.vue'], resolve)
 const Login = resolve => require(['../views/Login.vue'], resolve)
 const Admin = resolve => require(['../views/Admin.vue'], resolve)
+
 const Help = resolve => require(['../components/help.vue'], resolve)
 const ContactUs = resolve => require(['../components/contactUs.vue'], resolve)
 const Overview = resolve => require(['../components/overview.vue'], resolve)
@@ -14,8 +15,8 @@ const AddImage = resolve => require(['../components/addImage.vue'], resolve)
 const PlantManager = resolve =>
   require(['../components/plantManager.vue'], resolve)
 const Manager = resolve => require(['../components/manager.vue'], resolve)
+
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
@@ -77,6 +78,6 @@ const router = new Router({
   ]
 })
 
-router.beforeEach(beforeEachFunc)
+// router.beforeEach(beforeEachFunc)
 
 export default router
