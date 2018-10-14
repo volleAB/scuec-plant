@@ -47,7 +47,8 @@ import {
   Tooltip,
   TabPane,
   Tabs,
-  Upload
+  Upload,
+  Card
 } from 'element-ui'
 
 import axios from './axios'
@@ -93,6 +94,7 @@ Vue.use(Tooltip)
 Vue.use(TabPane)
 Vue.use(Tabs)
 Vue.use(Upload)
+Vue.use(Card)
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm

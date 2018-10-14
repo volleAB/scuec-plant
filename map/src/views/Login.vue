@@ -34,21 +34,16 @@
 </template>
 
 <script>
-import * as deadpoolAData from '@/assets/lottie/deadpool.json'
 import * as pumped_upAData from '@/assets/lottie/pumped_up.json'
 export default {
   name: 'Login',
   data() {
     return {
-      deadpoolAOptions: {
-        animationData: deadpoolAData
-      },
       pumped_upAOptions: {
         animationData: pumped_upAData
       },
       pumped_upAObj: null,
       animationSpeed: 1,
-      deadpoolAObj: null,
       login: {
         account: 'admin',
         password: '123'
@@ -74,10 +69,6 @@ export default {
     }
   },
   methods: {
-    deadpoolAnimation(anim) {
-      this.deadpoolAObj = anim
-      console.log(anim)
-    },
     pumped_upAnimation(anim) {
       this.pumped_upAObj = anim
       console.log(anim)

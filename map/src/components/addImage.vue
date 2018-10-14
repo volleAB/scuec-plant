@@ -19,16 +19,30 @@
     <el-main class="addImg-main">
       <el-upload ref="upload"
                  multiple
-                 list-type="picture"
+                 :limit="8"
+                 accept="image/*"
                  :disabled="form.name === ''"
                  :action="imgAction"
                  :before-upload="beforeUpload">
+        <div slot="tip"
+             class="el-upload__tip">只能上传图片文件，且不超过2MB，最多上传文件数为8</div>
         <el-button slot="trigger"
                    type="primary">选取图片</el-button>
         <el-button style="margin-left: 50px;"
                    type="success"
                    @click="submitUpload">上传服务器</el-button>
       </el-upload>
+      <div class="img-preview-container">
+        <div class="img-card-container"
+             v-for="(file, index) in filesArr"
+             :key="index">
+          <el-card :body-style="{padding: '0px'}">
+            <img class="image"
+                 :src="file.url"
+                 :alt="file.name">
+          </el-card>
+        </div>
+      </div>
     </el-main>
   </el-container>
 </template>
@@ -44,7 +58,7 @@ export default {
         name: ''
       },
       param: new FormData(),
-      previewSrc: []
+      filesArr: []
     }
   },
   computed: {
@@ -52,7 +66,21 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      this.param.append('file', file, file.name)
+      // 判断文件大小是否满足要求
+      const isLt2M = file.size / 1024 / 1024 < 2
+      const isIMG = /^image\//.test(file.type)
+      if (!isLt2M) {
+        this.$message.error('上传文件大小不能超过2MB！')
+      } else if (!isIMG) {
+        this.$message.error('上传文件必须是图片格式！')
+      } else {
+        this.param.append('file', file, file.name)
+        let imgFile = {
+          url: URL.createObjectURL(file),
+          name: file.name
+        }
+        this.filesArr.push(imgFile)
+      }
       return false
     },
     httpRequest() {},
@@ -68,9 +96,11 @@ export default {
         .post('/uploadFile', this.param, config)
         .then(res => {
           console.log(res)
+          this.$message.success('图片上传成功')
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
+          this.$message.error('图片上传失败')
         })
     }
   }
