@@ -16,7 +16,8 @@
         </el-form-item>
       </el-form>
     </el-header>
-    <el-main class="addImg-main">
+    <el-main class="addImg-main"
+             v-loading="uploading">
       <el-upload ref="upload"
                  multiple
                  :limit="8"
@@ -30,6 +31,7 @@
                    type="primary">选取图片</el-button>
         <el-button style="margin-left: 50px;"
                    type="success"
+                   :loading="uploading"
                    @click="submitUpload">上传服务器</el-button>
       </el-upload>
       <div class="img-preview-container">
@@ -40,6 +42,13 @@
             <img class="image"
                  :src="file.url"
                  :alt="file.name">
+            <div style="padding: 14px;">
+              <span>{{file.name}}</span>
+              <div class="bottom clearfix">
+                <el-button type="text"
+                           class="button">操作</el-button>
+              </div>
+            </div>
           </el-card>
         </div>
       </div>
@@ -58,7 +67,8 @@ export default {
         name: ''
       },
       param: new FormData(),
-      filesArr: []
+      filesArr: [],
+      uploading: false
     }
   },
   computed: {
@@ -85,6 +95,7 @@ export default {
     },
     httpRequest() {},
     submitUpload() {
+      this.uploading = true
       let names = this.form.name
       this.param.append('name', names)
       let config = {
@@ -95,12 +106,15 @@ export default {
       this.$axios
         .post('/uploadFile', this.param, config)
         .then(res => {
-          console.log(res)
           this.$message.success('图片上传成功')
         })
         .catch(err => {
           console.error(err)
           this.$message.error('图片上传失败')
+        })
+        .finally(() => {
+          this.filesArr = []
+          this.uploading = false
         })
     }
   }
