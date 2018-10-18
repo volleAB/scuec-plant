@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 
 import lottie from 'vue-lottie'
+import VueCropper from 'vue-cropper'
 
 import VeHistogram from 'v-charts/lib/histogram.common'
 import VeLine from 'v-charts/lib/line.common'
@@ -95,6 +96,9 @@ Vue.use(TabPane)
 Vue.use(Tabs)
 Vue.use(Upload)
 Vue.use(Card)
+
+Vue.use(VueCropper)
+
 Vue.prototype.$notify = Notification
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
