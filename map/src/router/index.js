@@ -1,6 +1,6 @@
 import Router from 'vue-router'
 import Vue from 'vue'
-// import { beforeEachFunc } from './interceptors'
+import { beforeEachFunc } from './interceptors'
 Vue.use(Router)
 
 const Home = resolve => require(['../views/Home.vue'], resolve)
@@ -78,6 +78,6 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach(beforeEachFunc)
+router.beforeEach(beforeEachFunc)
 
 export default router

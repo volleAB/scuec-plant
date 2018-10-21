@@ -98,6 +98,7 @@
           </el-header>
           <el-main>
             <ve-bar :data="locationData"
+                    :height="lHeight"
                     :settings="ChartSettings"></ve-bar>
           </el-main>
         </el-container>
@@ -152,7 +153,8 @@ export default {
       }
     }
     return {
-      activeChart: 'genus'
+      activeChart: 'genus',
+      lHeight: '400px'
     }
   },
   computed: {
@@ -221,6 +223,8 @@ export default {
       )
       let dataArr = []
       let totalN = building.length
+      let height = totalN * 50
+      this.lHeight = `${height}px`
       this._.forEach(dataObj, (value, key) => {
         dataArr.push({
           building: key,
