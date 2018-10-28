@@ -46,7 +46,8 @@
               <span>{{file.name}}</span>
               <div class="bottom clearfix">
                 <el-button type="text"
-                           class="button">裁剪</el-button>
+                           class="button"
+                           @click="tailor(file,index)">裁剪</el-button>
                 <el-button type="text"
                            class="button">重传</el-button>
               </div>
@@ -54,16 +55,24 @@
           </el-card>
         </div>
       </div>
+      <cropper :showFlag="showCropper"
+               :img="imgUrl"
+               @close="closeCropper"
+               @urlChange="cropperUrlChange"
+               @cropSuccess="cropSuccess"></cropper>
     </el-main>
   </el-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import cropper from '@/components/cropper'
 export default {
   name: 'addImage',
   data() {
     return {
+      cropIndex: null,
+      cropType: null,
       imgAction: 'http://59.68.29.67:8000/api/uploadFile',
       form: {
         name: ''
@@ -71,8 +80,12 @@ export default {
       param: new FormData(),
       filesArr: [],
       uploading: false,
-      warnFile: []
+      showCropper: false,
+      imgUrl: null
     }
+  },
+  components: {
+    cropper
   },
   computed: {
     ...mapGetters(['nameOptions'])
@@ -89,7 +102,8 @@ export default {
       } else {
         let imgFile = {
           url: URL.createObjectURL(file),
-          name: file.name
+          name: file.name,
+          data: file
         }
         // 判断图片的尺寸大小
         this.getSize(imgFile.url).then(res => {
@@ -112,7 +126,6 @@ export default {
             }
           }
         })
-        this.param.append('file', file, file.name)
         this.filesArr.push(imgFile)
       }
       return false
@@ -122,6 +135,11 @@ export default {
       this.uploading = true
       let names = this.form.name
       this.param.append('name', names)
+
+      this.filesArr.forEach(item => {
+        this.param.append('file', item.data, item.name)
+      })
+
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -137,8 +155,11 @@ export default {
           this.$message.error('图片上传失败')
         })
         .finally(() => {
+          // 重置所有数据
           this.filesArr = []
           this.uploading = false
+          this.param.delete('file')
+          this.param.delete('name')
         })
     },
     getSize(url) {
@@ -156,6 +177,28 @@ export default {
           })
         }
       })
+    },
+    tailor(file, index) {
+      this.imgUrl = file.url
+      this.showCropper = true
+      this.cropIndex = index
+      this.cropType = file.type
+    },
+    closeCropper(...value) {
+      this.showCropper = value[0]
+    },
+    cropperUrlChange(...value) {
+      this.imgUrl = value[0]
+    },
+    cropSuccess(data) {
+      let url = window.URL.createObjectURL(data)
+      let name = this.filesArr[this.cropIndex].name
+      let file = new File([data], name, {
+        type: this.cropType,
+        lastModified: Date.now()
+      })
+      this.filesArr[this.cropIndex].url = url
+      this.filesArr[this.cropIndex].data = file
     }
   }
 }
