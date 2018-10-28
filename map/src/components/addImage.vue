@@ -49,7 +49,13 @@
                            class="button"
                            @click="tailor(file,index)">裁剪</el-button>
                 <el-button type="text"
-                           class="button">重传</el-button>
+                           class="button"
+                           @click="reupload(index)">重传</el-button>
+                <input type="file"
+                       id="uploadFile"
+                       ref="uploadFile"
+                       accept="image/*"
+                       style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" />
               </div>
             </div>
           </el-card>
@@ -199,6 +205,23 @@ export default {
       })
       this.filesArr[this.cropIndex].url = url
       this.filesArr[this.cropIndex].data = file
+    },
+    reupload(index) {
+      this.getFile().then(res => {
+        if (res.length) {
+          this.filesArr[index].url = URL.createObjectURL(res[0])
+          this.filesArr[index].name = res[0].name
+          this.filesArr[index].data = res[0]
+        }
+      })
+    },
+    getFile() {
+      return new Promise((resolve, reject) => {
+        this.$refs.uploadFile[0].click()
+        this.$refs.uploadFile[0].addEventListener('change', function() {
+          resolve(this.files)
+        })
+      })
     }
   }
 }
