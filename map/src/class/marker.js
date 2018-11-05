@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import store from '@/store'
+
 class Marker {
   constructor(opt) {
     this.data = opt
@@ -50,7 +52,9 @@ class Marker {
         <h3 id="name">${this.data.name}</h3>
         <span id="family">${this.data.family}科</span>
         <span id="genus">${this.data.genus}属</span>
-        <div id="img-container"><img src="./static/img/demo.png" alt="实例图片  "></div>
+        <div id="img-container"><img src="${
+          store.getters.indexImg
+        }" alt="实例图片  "></div>
       </div>
     `
     let opts = {
