@@ -48,6 +48,9 @@ const getters = {
     return _.union(family).sort((a, b) => {
       return a.localeCompare(b, 'zh-CN')
     })
+  },
+  indexImg: state => {
+    return state.Plant.plant.result[0].img[0]
   }
 }
 
