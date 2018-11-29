@@ -85,7 +85,6 @@ export default {
     },
     toHere() {
       // 获取当前位置
-
       this.show = false
       this.targetPos = new BMap.Point(this.plantInfo.lng, this.plantInfo.lat)
       this.walking.search(this.currentPos, this.targetPos)

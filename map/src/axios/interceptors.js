@@ -4,6 +4,7 @@ export function requestSuccessFunc(requestObj) {
 }
 
 export function requestFailFunc(requestError) {
+  console.info(`requestFailFunc url(${requestError.url})`, requestError)
   return Promise.reject(requestError)
 }
 

@@ -71,7 +71,7 @@ export default {
   methods: {
     pumped_upAnimation(anim) {
       this.pumped_upAObj = anim
-      console.log(anim)
+      console.log('anim')
     },
     loginHandle() {
       if (this.login.account && this.login.password) {

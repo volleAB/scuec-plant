@@ -139,20 +139,19 @@ export default {
     httpRequest() {},
     submitUpload() {
       this.uploading = true
-      let names = this.form.name
-      this.param.append('name', names)
-
+      let formData = new FormData()
+      formData.append('name', '木耳3')
+      // this.param.append('name', this.form.name)
       this.filesArr.forEach(item => {
-        this.param.append('file', item.data, item.name)
+        formData.append('file', item.data, item.name)
       })
-
       let config = {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }
       this.$axios
-        .post('/uploadFile', this.param, config)
+        .post('/uploadFile', formData, config)
         .then(res => {
           this.$message.success('图片上传成功')
         })
