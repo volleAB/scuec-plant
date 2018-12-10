@@ -12,7 +12,7 @@ const findPlant = (name) => {
         resolve(doc);
       });
     });
-  };
+};
 
 //获取所有植物
 const findAllPlant = () => {
@@ -24,7 +24,7 @@ const findAllPlant = () => {
         resolve(doc);
       });
     });
-  };
+};
 
 //根据name删除记录
 const delPlant = (name) => {
@@ -36,7 +36,20 @@ const delPlant = (name) => {
         resolve(doc);
       });
     });
-  };
+};
+
+//根据name修改植物
+
+const revisePlant = (name, filePath) => {
+    return new Promise((resolve, reject) => {
+        Plant.update({name: name}, {img: filePath}, (err, doc) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(doc);
+      });
+    });
+};
 
 //用户
 //所有用户
@@ -107,12 +120,12 @@ const AddPlant = async(ctx) => {
         };
     } else {
         await new Promise((resolve, reject) => {
-        plant.save((err) => {
-            if (err) {
-            reject(err);
-            }
-            resolve();
-        });
+            plant.save((err) => {
+                if (err) {
+                reject(err);
+                }
+                resolve();
+            });
         });
         console.log('添加成功');
         ctx.status = 200;
@@ -246,5 +259,6 @@ module.exports = {
     FindAllUser,
     AddUser,
     DelUser,
-    Login
-  };
+    Login,
+    revisePlant
+};

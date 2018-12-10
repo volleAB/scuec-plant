@@ -24,11 +24,20 @@ app.use(cors({
     }))
 
 //bodyparser:该中间件用于post请求的数据
-const bodyParser = require('koa-bodyparser');
-app.use(bodyParser());
+const koaBody = require('koa-body')
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 200*1024*1024    // 设置上传文件大小最大限制，默认2M
+    }
+}))
+// app.use(koaBody())
 
 //引入数据库操作方法
-const Controller = require('./controller.js');
+const Controller = require('./controller.js')
+
+//引入上传图片操作方法
+// const { UploadFile } = require('./UploadFile.js')
 
 //获取所有植物信息
 const allPlantRouter = new Router();
@@ -56,6 +65,10 @@ delUserRouter.post('/deluser', Controller.DelUser);
 const loginRouter = new Router();
 loginRouter.post('/login', Controller.Login);
 
+//上传图片
+// const uploadRouter = new Router();
+// uploadRouter.post('/uploadFile', UploadFile);
+
 router.use('/api',allPlantRouter.routes(),allPlantRouter.allowedMethods());
 router.use('/api',addPlantRouter.routes(),addPlantRouter.allowedMethods());
 router.use('/api',delPlantRouter.routes(),delPlantRouter.allowedMethods());
@@ -63,6 +76,7 @@ router.use('/api',allUserRouter.routes(),allUserRouter.allowedMethods());
 router.use('/api',addUserRouter.routes(),addUserRouter.allowedMethods());
 router.use('/api',delUserRouter.routes(),delUserRouter.allowedMethods());
 router.use('/api',loginRouter.routes(),loginRouter.allowedMethods());
+// router.use('/api',uploadRouter.routes(),uploadRouter.allowedMethods());
 
 app.use(router.routes()).use(router.allowedMethods());
 

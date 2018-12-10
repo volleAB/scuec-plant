@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/scuec-plant');
+mongoose.connect('mongodb://localhost:27017/scuec-plant');
 
 let db = mongoose.connection;
 // 防止Mongoose: mpromise 错误
