@@ -1,5 +1,13 @@
+/**
+ * 定义图片的信息窗口，即鼠标移入所显示的窗口
+ */
 class InfoWindow {
   constructor() {}
+  /**
+   *
+   * @param {object} info 植物信息
+   * @returns {node} InfoWindow 合成信息之后的植物信息窗口
+   */
   getInfoWindow(info) {
     let allReviser = info.allReviser.join(' ，')
     var html = `<div id="msg">
@@ -34,6 +42,7 @@ class InfoWindow {
     </p>
   </div>
 </div>`
+    // 窗口的基本设置
     let opts = {
       width: 0,
       height: 0
