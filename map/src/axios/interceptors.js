@@ -1,3 +1,4 @@
+// 定义拦截器，处理请求的操作
 export function requestSuccessFunc(requestObj) {
   console.info(`requestSuccessFunc url(${requestObj.url})`, requestObj)
   return Promise.resolve(requestObj)
