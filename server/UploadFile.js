@@ -1,8 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const Images = require("images")
-// const uploadPath = 'E:/UI/img'
-const uploadPath = '/usr/local/apache-tomcat-8.5.32/webapps/images'
+const uploadPath = require('./config').uploadPath
 const Controller = require('./controller.js')
 
 mkdirsSync = (dirname) => { //文件夹是否存在，没有进行创建
@@ -23,6 +21,7 @@ buildFolderName = () => {   //生成文件夹名
     let date = time.getDate() < 10 ? '0' + time.getDate() : time.getDate()
     let dirname = year + month + date + Math.random().toString(16).substr(12)
     let filePath = path.join(uploadPath, dirname)
+    // console.log(filePath)
     mkdirsSync(filePath)
     return filePath
 }
@@ -44,18 +43,37 @@ handleFile = (filePath) =>{
 }
 
 checkData = async(name, path) => {
-    let doc = await Controller.revisePlant(name, path)
+    let imgPathArr = []
+    let newPath = ''
+    let reg = /\\/g
+
+    if(path.length > 1) {
+        for(let i = 0; i < path.length; i++) {
+            newPath = path[i].toString()
+            let start = newPath.indexOf('images')
+            newPath = newPath.slice(start)
+            newPath = newPath.replace(reg, '/')
+            newPath = './' + newPath
+            imgPathArr.push(newPath)
+        }
+    } else {
+        newPath = path.toString()
+        let start = newPath.indexOf('images')
+        newPath = newPath.slice(start)
+        newPath = newPath.replace(reg, '/')
+        newPath = './' + newPath
+        // console.log(newPath)
+        imgPathArr.push(newPath)
+    }
+    let doc = await Controller.revisePlant(name, imgPathArr)
     console.log('修改成功！')
 }
 
-uploadFile = (ctx) => { //上传文件
+uploadFile = (name, files) => { //上传文件
     let mkdirResult = buildFolderName()
-    let name = ctx.request.body.name
     let imgPath = []
-    
-    const files = ctx.request.files.file; // 获取上传文件
     if (files.length > 1) {
-        console.log('正在上传')
+        console.log('多文件正在上传')
         for (let file of files) {
             // 创建可读流
             const reader = fs.createReadStream(file.path);
@@ -68,10 +86,10 @@ uploadFile = (ctx) => { //上传文件
             // 可读流通过管道写入可写流
             reader.pipe(upStream)
             imgPath.push(filePath)
-            handleFile(filePath)
+            // handleFile(filePath)
         }
     } else {
-        console.log('正在上传')
+        console.log('单文件正在上传')
         let uploadFileName = files.name
         // 创建可读流
         const reader = fs.createReadStream(files.path)
@@ -82,15 +100,21 @@ uploadFile = (ctx) => { //上传文件
         // 可读流通过管道写入可写流
         reader.pipe(upStream)
         imgPath.push(filePath)
-        handleFile(filePath)
+        // console.log('filePath:' + filePath)
+        // handleFile(filePath)
     }
+    // console.log('filePath:' + imgPath)
     checkData(name, imgPath)
     console.log('上传成功！')
-    return ctx.body = "上传成功！"
+    return "上传成功！"
 }
 
 const UploadFile = async(ctx) => {
-    let doc = await uploadFile(ctx)
+    let name = ctx.request.body.name
+    // let files = ctx.request.files.img
+    let files = ctx.request.files.file
+    // console.log(files)
+    let doc = await uploadFile(name, files)
     ctx.status = 200
     ctx.body = {
         result: doc

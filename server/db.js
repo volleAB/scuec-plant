@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/scuec-plant');
+const dbName = require('./config').dbName
+const dbPort = require('./config').dbPort
+const dbAddress = require('./config').dbAddress
+mongoose.connect('mongodb://' + dbAddress + ':' + dbPort + '/' + dbName);
 
 let db = mongoose.connection;
 // 防止Mongoose: mpromise 错误

@@ -21,7 +21,11 @@ const findAllPlant = () => {
         if (err) {
           reject(err);
         }
-        resolve(doc);
+        let plant = doc;
+        plant.sort((a, b) => {
+            // return a.name.localeCompare(b.name);
+        })
+        resolve(plant);
       });
     });
 };
@@ -95,6 +99,8 @@ const delUser = (name) => {
 
 //植物操作
 const AddPlant = async(ctx) => {
+    let flag = true
+
     let plant = new Plant({
         name: ctx.request.body.name,
         eName: ctx.request.body.eName,
@@ -111,26 +117,40 @@ const AddPlant = async(ctx) => {
         value: ctx.request.body.value
     });
 
-    let doc = await findPlant(plant.name);
-    if (doc) {
-        console.log('植物已经存在');
+    if(typeof plant.name != 'string' || typeof plant.eName != 'string' || typeof plant.lng != 'string' || typeof plant.lat != 'string' || typeof plant.lastReviser != 'string' || typeof plant.family != 'string' || typeof plant.genus != 'string' || typeof plant.sharp != 'string' || typeof plant.distribution != 'string' || typeof plant.value != 'string') {
+        console.log('输入错误！')
         ctx.status = 200;
         ctx.body = {
-        success: false
+            success: false,
+            tips: '输入错误！'
         };
-    } else {
-        await new Promise((resolve, reject) => {
-            plant.save((err) => {
-                if (err) {
-                reject(err);
-                }
-                resolve();
+        flag = false
+    }
+
+    if(flag) {
+        let doc = await findPlant(plant.name);
+        if (doc) {
+            console.log('植物已经存在');
+            ctx.status = 200;
+            ctx.body = {
+                success: false,
+                tips: '植物已经存在！'
+            };
+        } else {
+            await new Promise((resolve, reject) => {
+                plant.save((err) => {
+                    if (err) {
+                    reject(err);
+                    }
+                    resolve();
+                });
             });
-        });
-        console.log('添加成功');
-        ctx.status = 200;
-        ctx.body = {
-        success: true
+            console.log('添加成功');
+            ctx.status = 200;
+            ctx.body = {
+                success: true,
+                tips: '添加成功！'
+            }
         }
     }
 };

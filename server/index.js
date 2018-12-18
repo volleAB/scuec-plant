@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const serverPort = require('./config').serverPort;
 const app = new Koa();
 
 //router
@@ -13,17 +14,17 @@ const router = new Router();
 app.use(cors({
     origin: function (ctx) {
         if (ctx.url) {
-        return "*";
+            return "*";
         }
     },
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-    maxAge: 5,
+    maxAge: 3600,
     credentials: true,
     allowMethods: ['GET', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
     }))
 
-//bodyparser:该中间件用于post请求的数据
+//koa-body:该中间件用于post请求的数据
 const koaBody = require('koa-body')
 app.use(koaBody({
     multipart: true,
@@ -37,7 +38,7 @@ app.use(koaBody({
 const Controller = require('./controller.js')
 
 //引入上传图片操作方法
-// const { UploadFile } = require('./UploadFile.js')
+const { UploadFile } = require('./UploadFile.js')
 
 //获取所有植物信息
 const allPlantRouter = new Router();
@@ -66,8 +67,8 @@ const loginRouter = new Router();
 loginRouter.post('/login', Controller.Login);
 
 //上传图片
-// const uploadRouter = new Router();
-// uploadRouter.post('/uploadFile', UploadFile);
+const uploadRouter = new Router();
+uploadRouter.post('/uploadFile', UploadFile);
 
 router.use('/api',allPlantRouter.routes(),allPlantRouter.allowedMethods());
 router.use('/api',addPlantRouter.routes(),addPlantRouter.allowedMethods());
@@ -76,10 +77,10 @@ router.use('/api',allUserRouter.routes(),allUserRouter.allowedMethods());
 router.use('/api',addUserRouter.routes(),addUserRouter.allowedMethods());
 router.use('/api',delUserRouter.routes(),delUserRouter.allowedMethods());
 router.use('/api',loginRouter.routes(),loginRouter.allowedMethods());
-// router.use('/api',uploadRouter.routes(),uploadRouter.allowedMethods());
+router.use('/api',uploadRouter.routes(),uploadRouter.allowedMethods());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8000, () => {
-    console.log('The server is running at http://localhost:' + 8000);
+app.listen(serverPort, () => {
+    console.log('The server is running at http://localhost:' + serverPort);
 });
