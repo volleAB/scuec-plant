@@ -55,6 +55,7 @@ checkData = async(name, path) => {
             newPath = newPath.replace(reg, '/')
             newPath = './' + newPath
             imgPathArr.push(newPath)
+            console.log(newPath)
         }
     } else {
         newPath = path.toString()
@@ -62,7 +63,7 @@ checkData = async(name, path) => {
         newPath = newPath.slice(start)
         newPath = newPath.replace(reg, '/')
         newPath = './' + newPath
-        // console.log(newPath)
+        console.log(newPath)
         imgPathArr.push(newPath)
     }
     let doc = await Controller.revisePlant(name, imgPathArr)
@@ -111,9 +112,7 @@ uploadFile = (name, files) => { //上传文件
 
 const UploadFile = async(ctx) => {
     let name = ctx.request.body.name
-    // let files = ctx.request.files.img
-    let files = ctx.request.files.file
-    // console.log(files)
+    let files = ctx.request.files.images
     let doc = await uploadFile(name, files)
     ctx.status = 200
     ctx.body = {
