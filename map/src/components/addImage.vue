@@ -1,74 +1,102 @@
 <template>
-  <el-container class="addImg-container">
-    <el-header class="addImg-header">
-      <el-form ref="form"
-               :model="form">
+  <el-container class='addImg-container'>
+    <el-header class='addImg-header'>
+      <el-form
+        :model='form'
+        ref='form'
+      >
         <el-form-item>
-          <el-select v-model="form.name"
-                     class="name-select"
-                     filterable
-                     placeholder="请选择">
-            <el-option v-for="item in nameOptions"
-                       :key="item.value"
-                       :label="item.value"
-                       :value="item.value"></el-option>
+          <el-select
+            class='name-select'
+            filterable
+            placeholder='请选择'
+            v-model='form.name'
+          >
+            <el-option
+              :key='item.value'
+              :label='item.value'
+              :value='item.value'
+              v-for='item in nameOptions'
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
     </el-header>
-    <el-main class="addImg-main"
-             v-loading="uploading">
-      <el-upload ref="upload"
-                 multiple
-                 :limit="8"
-                 accept="image/*"
-                 :disabled="uploadFlag"
-                 :action="
-                 imgAction"
-                 :before-upload="beforeUpload">
-        <div slot="tip"
-             class="el-upload__tip">只能上传图片文件，且不超过2MB，最多上传文件数为8，建议图片长宽比在2:1左右，且宽度大于700</div>
-        <el-button slot="trigger"
-                   :disabled="uploadFlag"
-                   type="primary">选取图片</el-button>
-        <el-button style="margin-left: 50px;"
-                   type="success"
-                   :loading="uploading"
-                   :disabled="uploadFlag"
-                   @click="submitUpload">上传服务器</el-button>
+    <el-main
+      class='addImg-main'
+      v-loading='uploading'
+    >
+      <el-upload
+        :action='
+                 imgAction'
+        :before-upload='beforeUpload'
+        :disabled='uploadFlag'
+        :limit='8'
+        accept='image/*'
+        multiple
+        ref='upload'
+      >
+        <div
+          class='el-upload__tip'
+          slot='tip'
+        >只能上传图片文件，且不超过2MB，最多上传文件数为8，建议图片长宽比在2:1左右，且宽度大于700</div>
+        <el-button
+          :disabled='uploadFlag'
+          slot='trigger'
+          type='primary'
+        >选取图片</el-button>
+        <el-button
+          :disabled='uploadFlag'
+          :loading='uploading'
+          @click='submitUpload'
+          style='margin-left: 50px;'
+          type='success'
+        >上传服务器</el-button>
       </el-upload>
-      <div class="img-preview-container">
-        <div class="img-card-container"
-             v-for="(file, index) in filesArr"
-             :key="index">
-          <el-card :body-style="{padding: '0px'}">
-            <img class="image"
-                 :src="file.url"
-                 :alt="file.name">
-            <div style="padding: 14px;">
+      <div class='img-preview-container'>
+        <div
+          :key='index'
+          class='img-card-container'
+          v-for='(file, index) in filesArr'
+        >
+          <el-card :body-style='{padding: '0px'}'>
+            <img
+              :alt='file.name'
+              :src='file.url'
+              class='image'
+            >
+            <div style='padding: 14px;'>
               <span>{{file.name}}</span>
-              <div class="bottom clearfix">
-                <el-button type="text"
-                           class="button"
-                           @click="tailor(file,index)">裁剪</el-button>
-                <el-button type="text"
-                           class="button"
-                           @click="reupload(index)">重传</el-button>
-                <input type="file"
-                       id="uploadFile"
-                       ref="uploadFile"
-                       accept="image/*"
-                       style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" />
+              <div class='bottom clearfix'>
+                <el-button
+                  @click='tailor(file,index)'
+                  class='button'
+                  type='text'
+                >裁剪</el-button>
+                <el-button
+                  @click='reupload(index)'
+                  class='button'
+                  type='text'
+                >重传</el-button>
+                <input
+                  accept='image/*'
+                  id='uploadFile'
+                  ref='uploadFile'
+                  style='filter:alpha(opacity=0);opacity:0;width: 0;height: 0;'
+                  type='file'
+                >
               </div>
             </div>
           </el-card>
         </div>
       </div>
-      <cropper :showFlag="showCropper"
-               :img="imgUrl"
-               @close="closeCropper"
-               @urlChange="cropperUrlChange"
-               @cropSuccess="cropSuccess"></cropper>
+      <cropper
+        :img='imgUrl'
+        :showFlag='showCropper'
+        @close='closeCropper'
+        @cropSuccess='cropSuccess'
+        @urlChange='cropperUrlChange'
+      ></cropper>
     </el-main>
   </el-container>
 </template>
@@ -142,13 +170,12 @@ export default {
     },
     httpRequest() {},
     submitUpload() {
-      this.uploading = true;
-      let formData = new FormData();
-      formData.append("name", "木耳3");
-      // this.param.append('name', this.form.name)
+      this.uploading = true
+      let formData = new FormData()
+      formData.append('name', this.form.name)
       this.filesArr.forEach(item => {
-        formData.append("file", item.data, item.name);
-      });
+        formData.append('images', item.data)
+      })
       let config = {
         headers: {
           "Content-Type": "multipart/form-data"
