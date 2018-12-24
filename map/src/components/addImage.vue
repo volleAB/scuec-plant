@@ -140,7 +140,7 @@ export default {
     submitUpload() {
       this.uploading = true
       let formData = new FormData()
-      formData.append('name', file.name)
+      formData.append('name', this.form.name)
       this.filesArr.forEach(item => {
         formData.append('images', item.data)
       })
