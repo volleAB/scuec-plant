@@ -28,13 +28,13 @@ class Marker {
   setNoticeWindow() {
     let _this = this
     this.marker.addEventListener(
-      'mouseover',
+      'click',
       _.throttle(open, 1000, {
         leading: true
       })
     )
     this.marker.addEventListener(
-      'mouseout',
+      'dbclick',
       _.throttle(close, 1000, {
         leading: true
       })
@@ -47,20 +47,20 @@ class Marker {
     }
   }
   initNoticeWindow() {
+    let img = store.getters.indexImg(this.data.name)
     let html = `
       <div id="notice-container">
         <h3 id="name">${this.data.name}</h3>
         <span id="family">${this.data.family}科</span>
         <span id="genus">${this.data.genus}属</span>
-        <div id="img-container"><img src="${
-          store.getters.indexImg
-        }" alt="实例图片  "></div>
+        <div id="img-container"><img src="${img}" alt="实例图片"></div>
       </div>
     `
+    console.log(this.data.name, img)
     let opts = {
       height: 0,
       width: 0,
-      enableCloseOnClick: false,
+      enableCloseOnClick: true,
       enableAutoPan: false
     }
     this.window = new BMap.InfoWindow(html, opts)
