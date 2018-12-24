@@ -109,151 +109,151 @@
 </template>
 
 <script>
-import plantMap from '@/components/plantMap'
-import overviewDialog from '@/components/overviewDialog'
-import { mapGetters } from 'vuex'
+import plantMap from "@/components/plantMap";
+import overviewDialog from "@/components/overviewDialog";
+import { mapGetters } from "vuex";
 export default {
-  name: 'App',
+  name: "App",
   data() {
     let validateType = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('请选择需要搜索的类型'))
+        callback(new Error("请选择需要搜索的类型"));
       }
-      this.searchPlant()
-      callback()
-    }
+      this.searchPlant();
+      callback();
+    };
 
     let validateValue = (rule, value, callback) => {
-      let type = this.search.type
+      let type = this.search.type;
       if (!type) {
-        callback(new Error('请先选择要搜索的类型'))
+        callback(new Error("请先选择要搜索的类型"));
       } else {
         if (!this[type].includes(value)) {
-          callback(new Error('请检查之后，输入正确的条目'))
+          callback(new Error("请检查之后，输入正确的条目"));
         }
       }
-      this.searchPlant()
-      callback()
-    }
+      this.searchPlant();
+      callback();
+    };
     return {
       showOFlag: false,
       plants: [],
       loading: false,
       search: {
-        type: 'family',
-        value: ''
+        type: "family",
+        value: ""
       },
       searchRules: {
         type: [
           {
             required: true,
             validator: validateType,
-            trigger: 'change'
+            trigger: "change"
           }
         ],
         value: [
           {
             required: true,
             validator: validateValue,
-            trigger: 'change'
+            trigger: "change"
           }
         ]
       },
       select: [
         {
-          label: '科',
-          value: 'family'
+          label: "科",
+          value: "family"
         },
         {
-          label: '属',
-          value: 'genus'
+          label: "属",
+          value: "genus"
         },
         {
-          label: '道路',
-          value: 'street'
+          label: "道路",
+          value: "street"
         },
         {
-          label: '建筑',
-          value: 'building'
+          label: "建筑",
+          value: "building"
         }
       ]
-    }
+    };
   },
   components: {
     plantMap,
     overviewDialog
   },
   computed: {
-    ...mapGetters(['building', 'street', 'genus', 'family', 'plant'])
+    ...mapGetters(["building", "street", "genus", "family", "plant"])
   },
   methods: {
     // TODO: 处理事件的重复触发，导致的地图抖动
     update(e) {
-      let fg = ['family', 'genus']
-      let el = e.target
-      let value = el.innerText
-      let type = el.dataset.type
+      let fg = ["family", "genus"];
+      let el = e.target;
+      let value = el.innerText;
+      let type = el.dataset.type;
       this.$notify.success({
-        title: '提示',
+        title: "提示",
         message: `此时显示 ${type} -- ${value} 中的所有植物`
-      })
+      });
       if (!fg.includes(type)) {
         this.plants = this._.filter(this.plant, {
           pos: {
             [type]: value
           }
-        })
+        });
       } else {
-        this.plants = this._.filter(this.plant, { [type]: value })
+        this.plants = this._.filter(this.plant, { [type]: value });
       }
     },
     searchPlant() {
-      let fg = ['family', 'genus']
-      let { type, value } = this.search
+      let fg = ["family", "genus"];
+      let { type, value } = this.search;
       if (!type || !value) {
-        this.plants = this.plant
-        console.log('type null or value null')
-        return
+        this.plants = this.plant;
+        console.log("type null or value null");
+        return;
       }
       if (!fg.includes(type)) {
         this.plants = this._.filter(this.plant, {
           pos: {
             [type]: value
           }
-        })
+        });
       } else {
-        this.plants = this._.filter(this.plant, { [type]: value })
+        this.plants = this._.filter(this.plant, { [type]: value });
       }
       if (this.plants.length) {
         this.$notify.success({
-          title: '提示',
+          title: "提示",
           message: `此时显示 ${type} -- ${value} 中的所有植物`
-        })
+        });
       } else {
         this.$notify.error({
-          title: '注意',
+          title: "注意",
           message: `当前条目 ${type} -- ${value}，校园内无如何植物`
-        })
+        });
       }
     },
     showAllPlants() {
-      this.plants = this.plant
+      this.plants = this.plant;
       this.$notify.success({
-        title: '提示',
-        message: '已在地图上显示全部植物'
-      })
+        title: "提示",
+        message: "已在地图上显示全部植物"
+      });
     },
     showOverview() {
-      this.showOFlag = true
+      this.showOFlag = true;
     },
     closeODialog(...data) {
-      this.showOFlag = data[0]
+      this.showOFlag = data[0];
     }
   },
   mounted() {
-    this.plants = this.$store.getters.plant
+    this.plants = this.$store.getters.plant;
   }
-}
+};
 </script>
 
 <style>

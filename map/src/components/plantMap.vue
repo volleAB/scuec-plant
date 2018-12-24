@@ -1,11 +1,15 @@
 <template>
-  <div class="map h100">
-    <div class="plantMap h100"
-         id="allmap"></div>
-    <info-dialog :showDialogFlag="show"
-                 :plantInfo="plantInfo"
-                 @closeDialog="closeDialog"
-                 @toHere="toHere"></info-dialog>
+  <div class='map h100'>
+    <div
+      class='plantMap h100'
+      id='allmap'
+    ></div>
+    <info-dialog
+      :plantInfo='plantInfo'
+      :showDialogFlag='show'
+      @closeDialog='closeDialog'
+      @toHere='toHere'
+    ></info-dialog>
   </div>
 </template>
 
@@ -49,8 +53,7 @@ export default {
         sharp:
           '形状如耳朵，系寄生于枯木上的一种菌类，富含铁、钙、磷和维生素B1等。新鲜的木耳呈胶质片状，半透明，侧生在树木上，耳片直径5～10厘米，有弹性，腹面平滑下凹，边缘略上卷，背面凸起，并有极细的绒毛，呈黑褐色或茶褐色。干燥后收缩为角质状，硬而脆性，背面暗灰色或灰白色；入水后膨胀，可恢复原状，柔软而半透明，表面附有滑润的粘液。',
         distribution: '产于全国各地。',
-        value:
-          '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
+        value: '全株：益气强身、活血、防治缺铁性贫血、养血驻颜、疏通肠胃、润滑肠道。'
       }
     }
   },
@@ -113,12 +116,14 @@ export default {
                 message: '当前位置已获取，可使用导航功能。'
               })
               this.walking = new BMap.WalkingRoute(map, walkingOpt)
+              this.$store.dispatch('setWalk', false)
             })
             .catch(err => {
               this.$notify.error({
                 title: '提示',
                 message: '位置信息获取失败，将无法使用导航功能。'
               })
+              this.$store.dispatch('setWalk', true)
             })
         })
     },

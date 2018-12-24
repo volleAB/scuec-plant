@@ -2,9 +2,13 @@ import { getAllPlant, delPlant, addPlant } from '@/utils/plant'
 
 const plant = {
   state: {
-    plant: null
+    plant: null,
+    walkFlag: true
   },
   mutations: {
+    SET_WALK: (state, flag) => {
+      state.walkFlag = flag
+    },
     GET_PLANT: state => {
       if (!state.plant) {
         getAllPlant().then(data => {
@@ -35,6 +39,9 @@ const plant = {
     },
     addPlant({ commit }, pInfo) {
       commit('ADD_PLANT', pInfo)
+    },
+    setWalk({ commit }, flag) {
+      commit('SET_WALK', flag)
     }
   }
 }

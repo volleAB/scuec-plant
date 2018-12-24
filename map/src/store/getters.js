@@ -49,9 +49,11 @@ const getters = {
       return a.localeCompare(b, 'zh-CN')
     })
   },
-  indexImg: state => {
-    return state.Plant.plant.result[0].img[0]
-  }
+  // 通过返回一个函数的方式，实现getter传参来获取我们需要的每一个描述图片
+  indexImg: state => name => {
+    return state.Plant.plant.result.find(res => res.name === name).img[0]
+  },
+  walkFlag: state => state.Plant.walkFlag
 }
 
 export default getters
