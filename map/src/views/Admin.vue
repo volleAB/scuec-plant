@@ -46,7 +46,7 @@
           <el-col :span="2">
             <el-dropdown>
               <div class="avatar-container">
-                <img :src="avatar"
+                <img src="@/assets/icon/person.gif"
                      alt="用户管理"
                      class="user-avatar">
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -78,7 +78,7 @@ export default {
   name: 'Admin',
   data() {
     return {
-      avatar: 'http://pctl0oi5b.bkt.clouddn.com/one.gif'
+
     }
   },
   methods: {}

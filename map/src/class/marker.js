@@ -28,13 +28,13 @@ class Marker {
   setNoticeWindow() {
     let _this = this
     this.marker.addEventListener(
-      'click',
+      'mouseover',
       _.throttle(open, 1000, {
         leading: true
       })
     )
     this.marker.addEventListener(
-      'dbclick',
+      'mouseout',
       _.throttle(close, 1000, {
         leading: true
       })
